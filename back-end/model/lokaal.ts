@@ -1,24 +1,24 @@
 export class Lokaal{
     private campus: string;
-    private identificatieNummer: number;
+    private lokaalNummer: string;
 
-    constructor(lokaal: {campus: string; identificatieNummer: number;}){
+    constructor(lokaal: {campus: string; lokaalNummer: string;}){
         this.campus = lokaal.campus;
-        this.identificatieNummer = lokaal.identificatieNummer;
+        this.lokaalNummer = lokaal.lokaalNummer;
     }
 
     getCampus(): string{
         return this.campus;
     }
 
-    getIdentificatieNummer(): number{
-        return this.identificatieNummer;
+    getLokaalNummer(): string{
+        return this.lokaalNummer;
     }
 
     equal(lokaal: Lokaal): boolean{
         return (
             this.campus === lokaal.getCampus() &&
-            this.identificatieNummer === lokaal.getIdentificatieNummer()
+            this.lokaalNummer === lokaal.getLokaalNummer()
         )
     }
 }
