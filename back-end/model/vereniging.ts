@@ -1,13 +1,13 @@
 export class Vereniging{
-    private kboNummer: number;
+    private kboNummer: string;
     private name: string;
 
-    constructor(vereniging: { kboNummer: number; name: string}){
+    constructor(vereniging: { kboNummer: string; name: string}){
         this.kboNummer = vereniging.kboNummer
         this.name = vereniging.name;
     }
 
-    getKboNummer(): number {
+    getKboNummer(): string {
         return this.kboNummer
     }
 
