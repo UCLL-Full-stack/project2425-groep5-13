@@ -1,7 +1,7 @@
 export class Gebruiker{
-    private studentenNummer: string;
-    private email: string;
-    private password: string;
+    readonly studentenNummer: string;
+    readonly email: string;
+    readonly password: string;
 
     constructor(gebruiker: {studentNummer: string; email: string; password: string;}){
         this.studentenNummer = gebruiker.studentNummer;
