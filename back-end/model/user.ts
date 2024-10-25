@@ -1,23 +1,26 @@
-import { StudentAssocation } from "./studentAssocation";
+import { Reservation } from "./reservation";
+import { StudentAssociation } from "./studentAssociation";
 
 export class User{
     readonly id?: number;
     readonly studentNumber: string;
     readonly email: string;
     readonly password: string;
-    readonly studentAssocations: StudentAssocation[]
+    readonly studentAssociations: StudentAssociation[]
+    readonly reservations: Reservation[]
 
-    constructor(user: {id?: number; studentNumber: string; email: string; password: string; studentAssocations: StudentAssocation[]}){
+    constructor(user: {id?: number; studentNumber: string; email: string; password: string}){
         this.validate(user);
 
         this.id = user.id;
         this.studentNumber = user.studentNumber;
         this.email = user.email;
         this.password = user.password;
-        this.studentAssocations = user.studentAssocations;
+        this.studentAssociations = [];
+        this.reservations = [];
     }
 
-    validate(user: { studentNumber: string; email: string; password: string }){
+    validate(user: { studentNumber: string; email: string; password: string}){
         if (!user.studentNumber) {
             throw new Error('Studenten nummer is required')
         }
@@ -45,15 +48,26 @@ export class User{
         return this.password;
     }
 
-    getStudentAssocations(): StudentAssocation[] {
-        return this.studentAssocations;
+    getStudentAssociations(): StudentAssociation[] {
+        return this.studentAssociations;
     }
 
-    addStudentAssocationToUser(studentAssocation: StudentAssocation) {
-        if (!studentAssocation) throw new Error('Student assocation is required');
-        if (this.studentAssocations.includes(studentAssocation))
-            throw new Error('Student assocation is already enrolled in this user')
-        this.studentAssocations.push(studentAssocation)
+    getReservations(): Reservation[] {
+        return this.reservations;
+    }
+
+    addStudentAssociationToUser(studentAssociation: StudentAssociation) {
+        if (!studentAssociation) throw new Error('Student assocation is required');
+        if (this.studentAssociations.includes(studentAssociation))
+            throw new Error('Student association is already enrolled for this user')
+        this.studentAssociations.push(studentAssociation)
+    }
+
+    addReservationsToUser(reservation: Reservation) {
+        if (!reservation) throw new Error('Reservation is required');
+        if (this.reservations.includes(reservation))
+            throw new Error('Reservation is already enrolled for this user')
+        this.reservations.push(reservation)
     }
 
     equals(user: User): boolean{
@@ -62,7 +76,8 @@ export class User{
             this.studentNumber === user.getStudentNumber() &&
             this.email === user.getEmail() &&
             this.password === user.getPassword() &&
-            this.studentAssocations.every((studentAssocation, index) => studentAssocation.equals(user.getStudentAssocations()[index]))
+            this.studentAssociations.every((studentAssociation, index) => studentAssociation.equals(user.getStudentAssociations()[index])) &&
+            this.reservations.every((reservation, index) => reservation.equals(user.getReservations()[index]))
         )
     }
 }

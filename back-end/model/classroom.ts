@@ -4,32 +4,23 @@ export class Classroom{
     readonly id?: number;
     readonly campus: string;
     readonly classroomNumber: string;
-    readonly reservation: Reservation[]
+    readonly reservations: Reservation[]
 
-    constructor(classroom: {id?: number; campus: string; classroomNumber: string; reservations: Reservation[]}){
+    constructor(classroom: {id?: number; campus: string; classroomNumber: string}){
         this.validate(classroom);
 
         this.id = classroom.id;
         this.campus = classroom.campus;
         this.classroomNumber = classroom.classroomNumber;
-        this.reservation = classroom.reservations;
+        this.reservations = [];
     }
 
-    validate(classroom: {campus: string, classroomNumber: string, reservations: Reservation[] }){
+    validate(classroom: {campus: string, classroomNumber: string}){
         if(!classroom.campus){
             throw new Error('Campus is required')
         }
         if(!classroom.classroomNumber){
-            throw new Error('Classroom ')
-        }
-        for (let i = 0; i < classroom.reservations.length; i++) {
-            for (let j = i + 1; j < classroom.reservations.length; j++) {
-                const res1 = classroom.reservations[i];
-                const res2 = classroom.reservations[j];
-                if (res1.getTimeSlot().overlapsWith(res2.getTimeSlot())) {
-                    throw new Error('Reservations have overlapping timeslots');
-                }
-            }
+            throw new Error('Classroom number is required')
         }
     }
 
@@ -45,8 +36,19 @@ export class Classroom{
         return this.classroomNumber;
     }
 
-    getReservation(): Reservation[] {
-        return this.reservation
+    getReservations(): Reservation[] {
+        return this.reservations
+    }
+
+    addReservationToClassroom(reservation: Reservation) {
+        if (!reservation) throw new Error('Reservation is required');
+        for (let i = 0; i < this.getReservations().length; i++) {
+            const res1 = this.getReservations()[i];
+            if (res1.getTimeSlot().overlapsWith(reservation.getTimeSlot())) {
+                throw new Error('Reservation you want to add has overlapping timeslots with another reservation');
+            }
+        }
+        this.reservations.push(reservation);
     }
 
     equal(classroom: Classroom): boolean{
@@ -54,7 +56,7 @@ export class Classroom{
             this.id === classroom.getId() &&
             this.campus === classroom.getCampus() &&
             this.classroomNumber === classroom.getClassroomNumber() &&
-            this.reservation.every((reservation, index) => reservation.equals(classroom.getReservation()[index]))
+            this.reservations.every((reservation, index) => reservation.equals(classroom.getReservations()[index]))
         )
     }
 }
