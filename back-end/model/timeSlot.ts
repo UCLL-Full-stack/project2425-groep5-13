@@ -3,15 +3,21 @@ export class TimeSlot {
     readonly endTime: Date;
 
     constructor(startTime: Date, endTime: Date) {
+        this.validate(startTime, endTime);
         this.startTime = startTime;
         this.endTime = endTime;
     }
 
-    overlapsWith(other: TimeSlot): boolean {
-        return this.startTime < other.endTime && this.endTime > other.startTime;
+    validate(startTime: Date, endTime: Date) {
+        if (startTime >= endTime) {
+            throw new Error("Start time must be before end time.");
+        }
+        if (startTime.getMinutes() % 30 !== 0 || endTime.getMinutes() % 30 !== 0) {
+            throw new Error("Time slot must start and end at the hour or half hour.");
+        }
     }
 
-    getDurationInMinutes(): number {
-        return (this.endTime.getTime() - this.startTime.getTime()) / (1000 * 60);
+    overlapsWith(other: TimeSlot): boolean {
+        return this.startTime < other.endTime && this.endTime > other.startTime;
     }
 }

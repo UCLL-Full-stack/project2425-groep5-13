@@ -3,8 +3,7 @@ import { Reservation } from "../model/reservation"
 import { TimeSlot } from "../model/timeSlot"
 import { Classroom } from "../model/classroom"
 
-const timeSlot = new TimeSlot(set (new Date(), {year: 2025, month: 1, date:25, hours: 10}), set (new Date(), {year: 2025, month: 1, date:25, hours: 11}))
-
+const timeSlot = new TimeSlot(new Date("2025-10-01T10:00:00Z"), new Date("2025-10-01T11:00:00Z"))
 const campus = "Proximus"
 const classroomNumber = "C102"
 

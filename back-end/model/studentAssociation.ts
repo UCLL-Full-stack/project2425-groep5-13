@@ -9,6 +9,7 @@ export class StudentAssociation{
     constructor(studentAssociation: { id?: number; kboNumber: string; name: string; users: User[]}){
         this.validate(studentAssociation)
 
+        this.id = studentAssociation.id
         this.kboNumber = studentAssociation.kboNumber
         this.name = studentAssociation.name;
         this.users = studentAssociation.users;

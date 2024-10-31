@@ -40,7 +40,7 @@ export class Classroom{
         return this.reservations
     }
 
-    addReservationToClassroom(reservation: Reservation) {
+    addReservationToClassroom(reservation: Reservation): Classroom{
         if (!reservation) throw new Error('Reservation is required');
         for (let i = 0; i < this.getReservations().length; i++) {
             const res1 = this.getReservations()[i];
@@ -49,6 +49,7 @@ export class Classroom{
             }
         }
         this.reservations.push(reservation);
+        return this
     }
 
     equal(classroom: Classroom): boolean{
