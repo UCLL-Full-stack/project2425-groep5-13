@@ -1,4 +1,4 @@
-import { User } from "../model/user";
+import { User, UserInput } from '../model/user';
 
 const users = [
     new User({
@@ -26,7 +26,17 @@ const getUserById = async ({ id }: { id: number}): Promise<User | null> => {
     }
 }
 
+const createUser = async (user: UserInput): Promise<User> => {
+    // @ts-ignore
+    const id = [...users].sort((a, b) => b.id - a.id)[0].id+1;
+    user.id = id;
+    const newUser = new User(user);
+    users.push(newUser);
+    return newUser;
+}
+
 export default {
     getAllUsers,
-    getUserById
+    getUserById,
+    createUser,
 }

@@ -1,6 +1,13 @@
 import { Reservation } from "./reservation";
 import { StudentAssociation } from "./studentAssociation";
 
+export type UserInput = {
+    id?: number
+    studentNumber: string,
+    email: string,
+    password: string
+}
+
 export class User{
     readonly id?: number;
     readonly studentNumber: string;
@@ -9,7 +16,7 @@ export class User{
     readonly studentAssociations: StudentAssociation[]
     readonly reservations: Reservation[]
 
-    constructor(user: {id?: number; studentNumber: string; email: string; password: string}){
+    constructor(user: UserInput){
         this.validate(user);
 
         this.id = user.id;
