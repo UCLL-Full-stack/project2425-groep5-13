@@ -15,9 +15,9 @@ const users = [
     })
 ]
 
-const getAllUsers = (): User[] => users;
+const getAllUsers = async (): Promise<User[]> => { return users; }
 
-const getUserById = ({ id }: { id: number}): User | null => {
+const getUserById = async ({ id }: { id: number}): Promise<User | null> => {
     try {
         return users.find((user) => user.getId() == id) || null
     } catch (error) {
