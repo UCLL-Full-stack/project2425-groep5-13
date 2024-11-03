@@ -11,7 +11,7 @@ export type UserInput = {
 export class User{
     readonly id?: number;
     readonly studentNumber: string;
-    readonly email: string;
+    readonly email: string[];
     readonly password: string;
     readonly studentAssociations: StudentAssociation[]
     readonly reservations: Reservation[]
@@ -21,7 +21,7 @@ export class User{
 
         this.id = user.id;
         this.studentNumber = user.studentNumber;
-        this.email = user.email;
+        this.email = [user.email];
         this.password = user.password;
         this.studentAssociations = [];
         this.reservations = [];
@@ -47,7 +47,7 @@ export class User{
         return this.studentNumber;
     }
 
-    getEmail(): string{
+    getEmail(): string[]{
         return this.email;
     }
 
