@@ -1,6 +1,7 @@
 import express from 'express';
 import userService from '../service/user.service';
-import { User, UserInput } from '../model/user';
+import { UserInput } from '../types';
+
 
 export const userRouter = express.Router();
 

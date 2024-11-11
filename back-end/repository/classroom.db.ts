@@ -1,65 +1,57 @@
 import { Classroom } from "../model/classroom";
-import { Reservation } from "../model/reservation";
-import { TimeSlot } from "../model/timeSlot";
+import { ClassroomInput } from "../types";
+import database from "../util/database";
 
-const classrooms = [
-    new Classroom({
-        id: 1,
-        campus: 'Proximus',
-        classroomNumber: "C107" 
-    }),
-    new Classroom({
-        id: 2,
-        campus: 'Proximus',
-        classroomNumber: "C108" 
-    })
-]
 
-const getAllClassrooms = (): Classroom[] => classrooms
-
-const getClassroomById = ({ id }: { id: number}): Classroom | null => {
+const getAllClassrooms = async (): Promise<Classroom[]> => {
     try {
-        return classrooms.find((classroom) => classroom.getId() == id) || null
-    } catch (error) {
-        console.error(error);
-        throw new Error('Database error. See server log for details.')
-    }
-}
-
-const getClassroomByCampusAndClassroomNumber = ({campus, classroomNumber}: {campus: string, classroomNumber: string}): Classroom | null => {
-    try {
-        return classrooms.find((classroom) => classroom.getCampus() == campus && classroom.getClassroomNumber() == classroomNumber ) || null
-    } catch (error) {
-        console.error(error);
-        throw new Error('Database error. See server log for details.')
-    }
-}
-
-const getAllClassroomReservationsByTimeSlot = ({ timeSlot }: { timeSlot: TimeSlot }): Reservation[] => {
-    try {
-        const reservations: Reservation[] = [];
-        classrooms.forEach((classroom) => {
-            classroom.getReservations().forEach((reservation) => {
-                if (reservation.getTimeSlot().overlapsWith(timeSlot)) {
-                    reservations.push(reservation);
-                }
-            });
-        });
-        return reservations;
+        const classroomPrisma = await database.classroom.findMany();
+        return classroomPrisma.map((classroomPrisma) => Classroom.from(classroomPrisma));
     } catch (error) {
         console.error(error);
         throw new Error('Database error. See server log for details.');
     }
+};
+
+const getClassroomById = async ({ id }: { id: number }): Promise<Classroom | null> => {
+    try {
+        const classroomPrisma = await database.classroom.findUnique({
+            where: { id }
+        });
+        return classroomPrisma ? Classroom.from(classroomPrisma) : null;
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
+};
+
+const getClassroomByCampusAndClassroomNumber = async ({campus, classroomNumber}: {campus: string, classroomNumber: string}): Promise<Classroom | null> => {
+    try {
+        const classroomPrisma = await database.classroom.findUnique({
+            where: {
+                campus_classroomNumber: {campus, classroomNumber}}
+        });
+        return classroomPrisma ? Classroom.from(classroomPrisma) : null;
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.')
+    }
 }
 
-const createClassroom = ({campus, classroomNumber}: {campus: string, classroomNumber: string}): Classroom => {
-    const classroom = new Classroom({
-        campus,
-        classroomNumber
-    });
-    classrooms.push(classroom)
-    return classroom
-}
+const createClassroom = async ({ campus, classroomNumber }: ClassroomInput): Promise<Classroom> => {
+    try {
+        const classroomPrisma = await database.classroom.create({
+            data: {
+                campus,
+                classroomNumber
+            }
+        });
+        return Classroom.from(classroomPrisma);
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
+};
 
 
 
@@ -67,6 +59,5 @@ export default {
     getAllClassrooms,
     getClassroomById,
     getClassroomByCampusAndClassroomNumber,
-    getAllClassroomReservationsByTimeSlot,
     createClassroom
 }

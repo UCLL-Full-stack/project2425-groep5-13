@@ -1,23 +1,34 @@
-type TimeSlotInput = {
-    startTime: Date
-    endTime: Date
-}
-
 type ClassroomInput = {
     id?: number
     campus: string
     classroomNumber: string
-    reservations?: ReservationInput[]
 }
 
 type ReservationInput = {
     id?: number;
-    timeSlot: TimeSlotInput
+    startTime: Date
+    endTime: Date
     classroom: ClassroomInput
+    user: UserInput
+}
+
+type UserInput = {
+    id?: number
+    studentNumber: string,
+    email: string[],
+    password: string
+}
+
+type StudentAssociationInput = {
+    id?: number
+    kboNumber: number
+    name: string
+    users: UserInput[]
 }
 
 export {
-    TimeSlotInput,
     ClassroomInput,
-    ReservationInput
+    ReservationInput,
+    UserInput,
+    StudentAssociationInput
 }

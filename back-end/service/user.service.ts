@@ -1,12 +1,14 @@
+import { User } from '../model/user';
 import userDb from '../repository/user.db';
-import { UserInput } from '../model/user';
+import { UserInput } from '../types';
 
-const getAllUsers = async () => {
-    return await userDb.getAllUsers();
+
+const getAllUsers = async (): Promise<User[]> => {
+    return userDb.getAllUsers()
 }
 
 const createUser = async (user: UserInput) => {
-    return await userDb.createUser(user);
+    return userDb.createUser(user);
 }
 
 export default {

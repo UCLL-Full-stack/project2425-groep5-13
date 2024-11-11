@@ -1,10 +1,8 @@
-import { Reservation } from "./reservation";
-
+import { Classroom as ClassroomPrisma} from "@prisma/client"
 export class Classroom{
     readonly id?: number;
     readonly campus: string;
     readonly classroomNumber: string;
-    readonly reservations: Reservation[]
 
     constructor(classroom: {id?: number; campus: string; classroomNumber: string}){
         this.validate(classroom);
@@ -12,7 +10,6 @@ export class Classroom{
         this.id = classroom.id;
         this.campus = classroom.campus;
         this.classroomNumber = classroom.classroomNumber;
-        this.reservations = [];
     }
 
     validate(classroom: {campus: string, classroomNumber: string}){
@@ -22,6 +19,18 @@ export class Classroom{
         if(!classroom.classroomNumber){
             throw new Error('Classroom number is required')
         }
+    }
+
+    static from ({
+        id,
+        campus,
+        classroomNumber
+    }: ClassroomPrisma) {
+        return new Classroom ({
+            id,
+            campus,
+            classroomNumber
+        })
     }
 
     getId(): number | undefined {
@@ -36,28 +45,11 @@ export class Classroom{
         return this.classroomNumber;
     }
 
-    getReservations(): Reservation[] {
-        return this.reservations
-    }
-
-    addReservationToClassroom(reservation: Reservation): Classroom{
-        if (!reservation) throw new Error('Reservation is required');
-        for (let i = 0; i < this.getReservations().length; i++) {
-            const res1 = this.getReservations()[i];
-            if (res1.getTimeSlot().overlapsWith(reservation.getTimeSlot())) {
-                throw new Error('Reservation you want to add has overlapping timeslots with another reservation');
-            }
-        }
-        this.reservations.push(reservation);
-        return this
-    }
-
     equal(classroom: Classroom): boolean{
         return (
             this.id === classroom.getId() &&
             this.campus === classroom.getCampus() &&
-            this.classroomNumber === classroom.getClassroomNumber() &&
-            this.reservations.every((reservation, index) => reservation.equals(classroom.getReservations()[index]))
+            this.classroomNumber === classroom.getClassroomNumber()
         )
     }
 }

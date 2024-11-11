@@ -5,7 +5,7 @@ const kboNummer = "0123.456.789"
 const name = "ISW"
 const userGiven = new User({
     studentNumber: "r0945734",
-    email: "RenzoDemuylder@student.ucll.be",
+    email: ["RenzoDemuylder@student.ucll.be"],
     password: "password123",
 })
 const studentAssociationGiven = new StudentAssociation({
@@ -31,7 +31,7 @@ test('given: an existing student asscocation; when: adding a student to student 
     //given
     const user = new User({
         studentNumber: "r1234567",
-        email: "example@student.ucll.be",
+        email: ["example@student.ucll.be"],
         password: "password123",
     })
     //when
@@ -65,7 +65,7 @@ test('given: an existing student asscocation with an student; when: adding this 
     //given
     const user = new User({
         studentNumber: "r1234567",
-        email: "example@student.ucll.be",
+        email:["example@student.ucll.be"],
         password: "password123",
     })
     studentAssociationGiven.addUserTostudentAssociation(user)

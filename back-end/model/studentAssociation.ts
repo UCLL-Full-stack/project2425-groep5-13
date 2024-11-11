@@ -1,3 +1,4 @@
+import { StudentAssociation as StudentAssociationPrisma, User as UserPrisma} from "@prisma/client"
 import { User } from "./user";
 
 export class StudentAssociation{
@@ -27,6 +28,20 @@ export class StudentAssociation{
         }
     }
 
+    static from({
+        id,
+        kboNumber,
+        name,
+        users
+    }: StudentAssociationPrisma & {users: UserPrisma[]}){
+        return new StudentAssociation({
+            id,
+            kboNumber,
+            name,
+            users: users.map((user) => User.from(user))
+        })
+    }
+
     getId(): number | undefined {
         return this.id
     }
@@ -48,6 +63,7 @@ export class StudentAssociation{
         if (this.users.includes(user))
             throw new Error('User is already enrolled for this student assocation')
         this.users.push(user)
+        return user
     }
 
     equals(studentAssociation: StudentAssociation): boolean {

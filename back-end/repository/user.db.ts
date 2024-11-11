@@ -1,42 +1,34 @@
-import { User, UserInput } from '../model/user';
+import { User } from "../model/user";
+import database from "../util/database";
+import { UserInput } from "../types";
 
-const users = [
-    new User({
-        id: 1,
-        studentNumber: 'r0945831',
-        email: 'john.doe@example.com',
-        password: 'password123'
-    }),
-    new User({
-        id: 2,
-        studentNumber: 'r0945840',
-        email: 'jane.smith@example.com',
-        password: 'password456'
-    })
-]
-
-const getAllUsers = async (): Promise<User[]> => { return users; }
-
-const getUserById = async ({ id }: { id: number}): Promise<User | null> => {
+const getAllUsers = async (): Promise<User[]> => {
     try {
-        return users.find((user) => user.getId() == id) || null
+        const userPrisma = await database.user.findMany();
+        return userPrisma.map((userPrisma) => User.from(userPrisma));
     } catch (error) {
         console.error(error);
-        throw new Error('Database error. See server log for details.')
+        throw new Error('Database error. See server log for details.');
     }
-}
+};
 
-const createUser = async (user: UserInput): Promise<User> => {
-    // @ts-ignore
-    const id = [...users].sort((a, b) => b.id - a.id)[0].id+1;
-    user.id = id;
-    const newUser = new User(user);
-    users.push(newUser);
-    return newUser;
+const createUser = async ({studentNumber, email, password}: UserInput): Promise<User> => {
+    try {
+        const userPrisma = await database.user.create({
+            data: {
+                studentNumber,
+                email,
+                password
+            }
+        });
+        return User.from(userPrisma)
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
 }
 
 export default {
     getAllUsers,
-    getUserById,
-    createUser,
+    createUser
 }
