@@ -9,10 +9,22 @@ const getAllUsers = async (): Promise<User[]> => {
     } catch (error) {
         console.error(error);
         throw new Error('Database error. See server log for details.');
+    };
+};
+
+const getUserByStudentNumber = async (userStudentNumber: string): Promise<User | null> => {
+    try {
+        const userPrisma = await database.user.findUnique({
+            where: { studentNumber: userStudentNumber }
+        });
+        return userPrisma ? User.from(userPrisma) : null;
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
     }
 };
 
-const createUser = async ({studentNumber, email, password}: UserInput): Promise<User> => {
+const createUser = async ({ studentNumber, email, password }: UserInput): Promise<User> => {
     try {
         const userPrisma = await database.user.create({
             data: {
@@ -30,5 +42,6 @@ const createUser = async ({studentNumber, email, password}: UserInput): Promise<
 
 export default {
     getAllUsers,
+    getUserByStudentNumber,
     createUser
 }

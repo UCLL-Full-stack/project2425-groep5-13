@@ -1,6 +1,6 @@
-// Execute: npx ts=node util/seed.ts
+// Execute: npx ts-node util/seed.ts
 
-import {PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 const main = async () => {
@@ -57,10 +57,10 @@ const main = async () => {
             startTime: new Date("2025-10-01T10:00:00Z"),
             endTime: new Date("2025-10-01T11:00:00Z"),
             classroom: {
-                connect: {id: classroomGasthuisbergD105.id}
+                connect: { id: classroomGasthuisbergD105.id }
             },
             user: {
-                connect: {id: userTomBoonen.id}
+                connect: { id: userTomBoonen.id }
             }
         }
     })
@@ -69,10 +69,10 @@ const main = async () => {
             startTime: new Date("2025-10-01T11:00:00Z"),
             endTime: new Date("2025-10-01T11:30:00Z"),
             classroom: {
-                connect: {id: classroomGasthuisbergD105.id}
+                connect: { id: classroomGasthuisbergD105.id }
             },
             user: {
-                connect: {id: userRemcoEvenepoel.id}
+                connect: { id: userRemcoEvenepoel.id }
             }
         }
     })
@@ -84,7 +84,7 @@ const main = async () => {
                 connect: [{ id: userRemcoEvenepoel.id }, { id: userTomBoonen.id }]
             }
         }
-    })    
+    })
 };
 
 main()

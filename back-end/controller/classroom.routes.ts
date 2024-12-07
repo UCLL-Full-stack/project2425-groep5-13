@@ -2,7 +2,7 @@
  * @swagger
  *   components:
  *    schemas:
- *      classroom:
+ *      Classroom:
  *          type: object
  *          properties:
  *            id:
@@ -10,12 +10,8 @@
  *              format: int64
  *            campus:
  *              type: string
- *            end:
+ *            classroomNumber:
  *              type: string
- *            reservations:
- *              type: array
- *              items:
- *                  $ref: '#/components/schemas/Reservation'
  *      ClassroomInput:
  *          type: object
  *          properties:
