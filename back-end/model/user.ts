@@ -1,21 +1,26 @@
 import { UserInput } from "../types";
-import { User as UserPrisma} from "@prisma/client";
-export class User{
+import { User as UserPrisma } from "@prisma/client";
+import { Role } from '../types';
+
+export class User {
     readonly id?: number;
     readonly studentNumber: string;
     readonly email: string[];
     readonly password: string;
+    readonly role: Role;
 
-    constructor(user: UserInput){
+
+    constructor(user: UserInput) {
         this.validate(user);
 
         this.id = user.id;
         this.studentNumber = user.studentNumber;
         this.email = user.email;
         this.password = user.password;
+        this.role = user.role;
     }
 
-    validate(user: { studentNumber: string; email: string[]; password: string}){
+    validate(user: { studentNumber: string; email: string[]; password: string; role: Role }) {
         if (!user.studentNumber) {
             throw new Error('Studenten nummer is required')
         }
@@ -25,19 +30,24 @@ export class User{
         if (!user.password) {
             throw new Error('Password is required')
         }
+        if (!user.role) {
+            throw new Error('Role is required');
+        }
     }
 
-    static from ({
+    static from({
         id,
         studentNumber,
         email,
         password,
-    }: UserPrisma){
+        role
+    }: UserPrisma) {
         return new User({
             id,
             studentNumber,
             email,
-            password
+            password,
+            role: role as Role,
         })
     }
 
@@ -45,16 +55,20 @@ export class User{
         return this.id;
     }
 
-    getStudentNumber(): string{
+    getStudentNumber(): string {
         return this.studentNumber;
     }
 
-    getEmail(): string[]{
+    getEmail(): string[] {
         return this.email;
     }
 
-    getPassword(): string{
+    getPassword(): string {
         return this.password;
+    }
+
+    getRole(): Role {
+        return this.role;
     }
 
     // getStudentAssociations(): StudentAssociation[] {
@@ -79,12 +93,13 @@ export class User{
     //     this.reservations.push(reservation)
     // }
 
-    equals(user: User): boolean{
+    equals(user: User): boolean {
         return (
             this.id === user.getId() &&
             this.studentNumber === user.getStudentNumber() &&
             this.email === user.getEmail() &&
-            this.password === user.getPassword()
+            this.password === user.getPassword() &&
+            this.role == user.getRole()
             // this.studentAssociations.every((studentAssociation, index) => studentAssociation.equals(user.getStudentAssociations()[index])) &&
             // this.reservations.every((reservation, index) => reservation.equals(user.getReservations()[index]))
         )

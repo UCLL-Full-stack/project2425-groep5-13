@@ -33,6 +33,7 @@ model User {
   studentNumber       String               @unique
   email               String[]
   password            String
+  role                String
   reservations        Reservation[]
   studentAssociations StudentAssociation[]
 }

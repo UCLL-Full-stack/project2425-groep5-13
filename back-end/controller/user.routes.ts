@@ -19,6 +19,9 @@
  *                  studentNumber:
  *                      type: string
  *                      description: User student number
+ *                  role:
+ *                      type: string
+ *                      description: User role
  *          UserInput:
  *              type: object
  *              properties:
@@ -33,6 +36,9 @@
  *                  studentNumber:
  *                      type: string
  *                      description: User student number
+ *                  role:
+ *                      type: string
+ *                      description: User role
  */
 import express, { Request, Response } from 'express';
 import userService from '../service/user.service';

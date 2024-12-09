@@ -24,13 +24,14 @@ const getUserByStudentNumber = async (userStudentNumber: string): Promise<User |
     }
 };
 
-const createUser = async ({ studentNumber, email, password }: UserInput): Promise<User> => {
+const createUser = async ({ studentNumber, email, password, role }: UserInput): Promise<User> => {
     try {
         const userPrisma = await database.user.create({
             data: {
                 studentNumber,
                 email,
-                password
+                password,
+                role
             }
         });
         return User.from(userPrisma)

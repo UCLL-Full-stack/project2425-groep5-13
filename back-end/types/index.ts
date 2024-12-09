@@ -1,3 +1,5 @@
+type Role = 'admin' | 'student';
+
 type ClassroomInput = {
     id?: number
     campus: string
@@ -16,7 +18,8 @@ type UserInput = {
     id?: number
     studentNumber: string,
     email: string[],
-    password: string
+    password: string,
+    role: Role
 }
 
 type StudentAssociationInput = {
@@ -27,6 +30,7 @@ type StudentAssociationInput = {
 }
 
 export {
+    Role,
     ClassroomInput,
     ReservationInput,
     UserInput,

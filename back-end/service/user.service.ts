@@ -8,10 +8,10 @@ const getAllUsers = async (): Promise<User[]> => {
     return userDb.getAllUsers()
 }
 
-const createUser = async ({ studentNumber, email, password }: UserInput): Promise<User> => {
+const createUser = async ({ studentNumber, email, password, role }: UserInput): Promise<User> => {
     const existingUser = await userDb.getUserByStudentNumber(studentNumber)
     if (existingUser) throw new Error('This user already exists')
-    return userDb.createUser({ studentNumber, email, password });
+    return userDb.createUser({ studentNumber, email, password, role });
 }
 
 export default {

@@ -38,18 +38,29 @@ const main = async () => {
             classroomNumber: "D105"
         }
     })
+
+    const admin = await prisma.user.create({
+        data: {
+            studentNumber: "r0948731",
+            email: ["RenzoDemuylder.student@ucll.be"],
+            password: "Renzo1234",
+            role: "admin"
+        }
+    })
     const userRemcoEvenepoel = await prisma.user.create({
         data: {
             studentNumber: "r0945821",
             email: ["RemcoEvenepoel.student@ucll.be"],
-            password: "Remco1234"
+            password: "Remco1234",
+            role: "student"
         }
     })
     const userTomBoonen = await prisma.user.create({
         data: {
             studentNumber: "r0985321",
             email: ["TomBoonen.student@ucll.be"],
-            password: "Tom1234"
+            password: "Tom1234",
+            role: "student"
         }
     })
     const reservationByRemcoEvenepoel = await prisma.reservation.create({

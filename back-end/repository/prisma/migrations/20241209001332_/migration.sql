@@ -24,6 +24,7 @@ CREATE TABLE "User" (
     "studentNumber" TEXT NOT NULL,
     "email" TEXT[],
     "password" TEXT NOT NULL,
+    "role" TEXT NOT NULL,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
