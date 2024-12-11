@@ -40,7 +40,7 @@
  *                      type: string
  *                      description: User role
  */
-import express, { Request, Response } from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import userService from '../service/user.service';
 import { UserInput } from '../types';
 
@@ -100,5 +100,34 @@ userRouter.post("/", async (req: Request, res: Response) => {
     } catch (error) {
         const errorMessage = (error as Error).message;
         res.status(400).json({ status: 'error', errorMessage })
+    }
+});
+
+/**
+ * @swagger
+ * /users/login:
+ *   post:
+ *      summary: Login using studentnummer/password. Returns an object with JWT token and user name when succesful.
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/AuthenticationRequest'
+ *      responses:
+ *         200:
+ *            description: The created user object
+ *            content:
+ *              application/json:
+ *                schema:
+ *                  $ref: '#/components/schemas/AuthenticationResponse'
+ */
+userRouter.post('/login', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const userInput = <UserInput>req.body;
+        const response = await userService.authenticate(userInput);
+        res.status(200).json({ message: 'Authentication succesful', ...response });
+    } catch (error) {
+        next(error);
     }
 });

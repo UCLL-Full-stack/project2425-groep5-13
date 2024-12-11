@@ -29,10 +29,17 @@ type StudentAssociationInput = {
     users: UserInput[]
 }
 
+type AuthenticationResponse = {
+    token: string;
+    studentNumber: string;
+    role: string;
+};
+
 export {
     Role,
     ClassroomInput,
     ReservationInput,
     UserInput,
-    StudentAssociationInput
+    StudentAssociationInput,
+    AuthenticationResponse
 }
