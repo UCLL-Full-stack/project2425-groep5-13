@@ -43,7 +43,7 @@ const main = async () => {
         data: {
             studentNumber: "r0948731",
             email: ["RenzoDemuylder.student@ucll.be"],
-            password: "Renzo1234",
+            password: "$2a$12$jB6aJSxTklBM49KlQPZXF.g0OZnwhbz94YDaJO/IAYPd3CK4NsyPW",
             role: "admin"
         }
     })
@@ -51,7 +51,7 @@ const main = async () => {
         data: {
             studentNumber: "r0945821",
             email: ["RemcoEvenepoel.student@ucll.be"],
-            password: "Remco1234",
+            password: "$2a$12$U956x3O9XTTb6Hrlepcssu65Ag8qbqLTDypTB4/3IBkFLi3/bUB02",
             role: "student"
         }
     })
@@ -59,7 +59,7 @@ const main = async () => {
         data: {
             studentNumber: "r0985321",
             email: ["TomBoonen.student@ucll.be"],
-            password: "Tom1234",
+            password: "$2a$12$Imyk4VrdrS8znEjM9RIfteX2L0GY4dQvsKQUAS2.DpBvs9Uy7diki",
             role: "student"
         }
     })
