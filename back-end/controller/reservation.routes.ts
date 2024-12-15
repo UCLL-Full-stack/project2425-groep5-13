@@ -50,7 +50,6 @@
  *                          format: int64
  */
 import express, { NextFunction, Request, Response } from 'express';
-import userService from '../service/user.service';
 import reservationService from '../service/reservation.service';
 
 export const reservationRouter = express.Router();
@@ -59,10 +58,10 @@ export const reservationRouter = express.Router();
  * @swagger
  * /users:
  *  get:
- *      summary: Get user with specific studentNumber
+ *      summary: Get all reservations
  *      responses:
  *          200:
- *              description: Succesfully all users
+ *              description: Succesfully all reservations
  *              content:
  *                  application/json:
  *                      schema:
@@ -74,6 +73,39 @@ export const reservationRouter = express.Router();
 reservationRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const reservations = await reservationService.getAllReservations();
+        res.status(200).json(reservations);
+    } catch (error) {
+        const errorMessage = (error as Error).message;
+        res.status(400).json({ status: 'error', errorMessage });
+    }
+});
+
+/**
+ * @swagger
+ * /reservations/user/{studentNumber}:
+ *  get:
+ *      summary: Get all reservations for a specific user
+ *      parameters:
+ *        - in: path
+ *          name: studentNumber
+ *          required: true
+ *          schema:
+ *            type: string
+ *          description: The student number of the user
+ *      responses:
+ *          200:
+ *              description: Successfully fetched reservations
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: array
+ *                          items:
+ *                              $ref: '#/components/schemas/Reservation'
+ */
+reservationRouter.get('/:studentNumber', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { studentNumber } = req.params;
+        const reservations = await reservationService.getReservationsByUser(studentNumber);
         res.status(200).json(reservations);
     } catch (error) {
         const errorMessage = (error as Error).message;

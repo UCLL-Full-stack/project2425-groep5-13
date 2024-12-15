@@ -3,7 +3,7 @@ import { Reservation, User } from '@/types';
 import Head from 'next/head';
 import Header from '@/components/header';
 import ReservationsOverview from '@/components/reservations/ReservationsOverview';
-import {ReservationService} from '@/services/ReservationService';
+import { ReservationService } from '@/services/ReservationService';
 
 const Profile: React.FC = () => {
     const [reservations, setReservations] = useState<Reservation[]>([]);
@@ -56,7 +56,9 @@ const Profile: React.FC = () => {
             <main className="p-6 min-h-screen flex flex-col items-center">
                 <h1>My reservations</h1>
                 {error && <div className="text-red-800">{error}</div>}
-                {!error && !isLoading && loggedInUser && reservations && <ReservationsOverview reservations={reservations} loggedInUser={loggedInUser}/>}
+                {!error && !isLoading && loggedInUser && reservations && (
+                    <ReservationsOverview reservations={reservations} loggedInUser={loggedInUser} />
+                )}
             </main>
         </>
     );

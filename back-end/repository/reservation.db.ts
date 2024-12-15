@@ -16,6 +16,27 @@ const getAllReservations = async (): Promise<Reservation[]> => {
     }
 };
 
+const getReservationsByUser = async (studentNumber: string): Promise<Reservation[]> => {
+    try {
+        const reservationPrisma = await database.reservation.findMany({
+            where: {
+                user: {
+                    studentNumber: studentNumber,
+                },
+            },
+            include: {
+                classroom: true,
+                user: true,
+            },
+        });
+        return reservationPrisma.map((reservationPrisma) => Reservation.from(reservationPrisma));
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
+};
+
 export default {
     getAllReservations,
+    getReservationsByUser
 };
