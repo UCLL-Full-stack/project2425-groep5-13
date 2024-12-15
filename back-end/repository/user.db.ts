@@ -1,6 +1,6 @@
-import { User } from "../model/user";
-import database from "../util/database";
-import { UserInput } from "../types";
+import { User } from '../model/user';
+import database from '../util/database';
+import { UserInput } from '../types';
 
 const getAllUsers = async (): Promise<User[]> => {
     try {
@@ -9,13 +9,13 @@ const getAllUsers = async (): Promise<User[]> => {
     } catch (error) {
         console.error(error);
         throw new Error('Database error. See server log for details.');
-    };
+    }
 };
 
 const getUserByStudentNumber = async (userStudentNumber: string): Promise<User | null> => {
     try {
         const userPrisma = await database.user.findUnique({
-            where: { studentNumber: userStudentNumber }
+            where: { studentNumber: userStudentNumber },
         });
         return userPrisma ? User.from(userPrisma) : null;
     } catch (error) {
@@ -31,18 +31,18 @@ const createUser = async ({ studentNumber, email, password, role }: UserInput): 
                 studentNumber,
                 email,
                 password,
-                role
-            }
+                role,
+            },
         });
-        return User.from(userPrisma)
+        return User.from(userPrisma);
     } catch (error) {
         console.error(error);
         throw new Error('Database error. See server log for details.');
     }
-}
+};
 
 export default {
     getAllUsers,
     getUserByStudentNumber,
-    createUser
-}
+    createUser,
+};

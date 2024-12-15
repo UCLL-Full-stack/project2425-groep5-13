@@ -1,5 +1,5 @@
-import { UserInput } from "../types";
-import { User as UserPrisma } from "@prisma/client";
+import { UserInput } from '../types';
+import { User as UserPrisma } from '@prisma/client';
 import { Role } from '../types';
 
 export class User {
@@ -8,7 +8,6 @@ export class User {
     readonly email: string[];
     readonly password: string;
     readonly role: Role;
-
 
     constructor(user: UserInput) {
         this.validate(user);
@@ -22,33 +21,27 @@ export class User {
 
     validate(user: { studentNumber: string; email: string[]; password: string; role: Role }) {
         if (!user.studentNumber) {
-            throw new Error('Studenten nummer is required')
+            throw new Error('Studenten nummer is required');
         }
         if (user.email.length === 0) {
-            throw new Error('Email is required')
+            throw new Error('Email is required');
         }
         if (!user.password) {
-            throw new Error('Password is required')
+            throw new Error('Password is required');
         }
         if (!user.role) {
             throw new Error('Role is required');
         }
     }
 
-    static from({
-        id,
-        studentNumber,
-        email,
-        password,
-        role
-    }: UserPrisma) {
+    static from({ id, studentNumber, email, password, role }: UserPrisma) {
         return new User({
             id,
             studentNumber,
             email,
             password,
             role: role as Role,
-        })
+        });
     }
 
     getId(): number | undefined {
@@ -102,6 +95,6 @@ export class User {
             this.role == user.getRole()
             // this.studentAssociations.every((studentAssociation, index) => studentAssociation.equals(user.getStudentAssociations()[index])) &&
             // this.reservations.every((reservation, index) => reservation.equals(user.getReservations()[index]))
-        )
+        );
     }
 }

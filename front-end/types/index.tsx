@@ -1,4 +1,5 @@
 export type User = {
+    id: number;
     email: string[];
     studentNumber: string;
     password: string;
@@ -17,8 +18,9 @@ export type StudentAssociation = {
 };
 
 export type Reservation = {
-    starttime: Date;
-    endtime: Date;
+    id: number;
+    startTime: Date;
+    endTime: Date;
     classroom: Classroom;
     user: User;
 };

@@ -1,7 +1,15 @@
 import jwt from 'jsonwebtoken';
 import { Role } from '../types';
 
-const generateJwtToken = ({ studentNumber, role }: { studentNumber: string; role: Role }): string => {
+const generateJwtToken = ({
+    id,
+    studentNumber,
+    role,
+}: {
+    id: number;
+    studentNumber: string;
+    role: Role;
+}): string => {
     const options = { expiresIn: `${process.env.JWT_EXPIRES_HOURS}h`, issuer: 'courses_app' };
 
     try {

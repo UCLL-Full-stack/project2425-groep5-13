@@ -51,6 +51,7 @@
  */
 import express, { NextFunction, Request, Response } from 'express';
 import userService from '../service/user.service';
+import reservationService from '../service/reservation.service';
 
 export const reservationRouter = express.Router();
 
@@ -68,12 +69,12 @@ export const reservationRouter = express.Router();
  *                          type: array
  *                          items:
  *                          $ref: '#/components/schemas/User'
- *      
+ *
  */
-reservationRouter.get("/:userStudentNumber", async (req: Request, res: Response, next: NextFunction) => {
+reservationRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const user = await userService.getUserByStudentNumber({ studentNumber: req.params.userStudentNumber });
-        res.status(200).json(user);
+        const reservations = await reservationService.getAllReservations();
+        res.status(200).json(reservations);
     } catch (error) {
         const errorMessage = (error as Error).message;
         res.status(400).json({ status: 'error', errorMessage });

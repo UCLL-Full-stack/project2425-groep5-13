@@ -12,6 +12,16 @@ const getReservationsByUser = (userStudentNumber: string) => {
     })
 }
 
-const ReservationService = {
-    getReservationsByUser
+const getAllReservations = (userStudentNumber: string) => {
+    return fetch(process.env.NEXT_PUBLIC_API_URL + `/reservations`, {
+        method: 'GET',
+        headers: {
+            "Content-Type": "application/json",
+        }
+    })
+}
+
+export const ReservationService = {
+    getReservationsByUser,
+    getAllReservations
 }

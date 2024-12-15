@@ -3,12 +3,13 @@ import { Reservation, User } from '@/types';
 import Head from 'next/head';
 import Header from '@/components/header';
 import ReservationsOverview from '@/components/reservations/ReservationsOverview';
-import ReservationService from '@/services/ReservationService';
+import {ReservationService} from '@/services/ReservationService';
 
 const Profile: React.FC = () => {
     const [reservations, setReservations] = useState<Reservation[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [loggedInUser, setLoggedInUser] = useState<User | null>(null);
+    const [isLoading, setLoading] = useState(true);
 
     useEffect(() => {
         const user = sessionStorage.getItem('loggedInUser');
@@ -38,6 +39,7 @@ const Profile: React.FC = () => {
             } else {
                 const reservations = await response.json();
                 setReservations(reservations);
+                setLoading(false);
             }
         };
         if (loggedInUser) {
@@ -54,7 +56,7 @@ const Profile: React.FC = () => {
             <main className="p-6 min-h-screen flex flex-col items-center">
                 <h1>My reservations</h1>
                 {error && <div className="text-red-800">{error}</div>}
-                {reservations && <ReservationsOverview reservations={reservations} />}
+                {!error && !isLoading && reservations && <ReservationsOverview reservations={reservations} loggedInId={loggedInUser.id as number}/>}
             </main>
         </>
     );

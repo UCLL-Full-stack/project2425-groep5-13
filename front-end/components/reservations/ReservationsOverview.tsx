@@ -2,25 +2,39 @@ import { Reservation } from '@/types';
 
 interface ReservationsOverviewProps {
     reservations: Reservation[];
+    loggedInId: number;
 }
 
-const ReservationsOverview: React.FC<ReservationsOverviewProps> = ({ reservations }) => {
+const ReservationsOverview: React.FC<ReservationsOverviewProps> = ({ reservations, loggedInId }: ReservationsOverviewProps) => {
     return (
-        <div>
-            <h2>Reservations</h2>
-            <ul>
-                {reservations.map((reservation) => (
-                    <li key={reservation.id}>
-                        <p>
-                            Classroom: {reservation.classroom.campus} -{' '}
-                            {reservation.classroom.classroomNumber}
-                        </p>
-                        <p>Start Time: {new Date(reservation.starttime).toLocaleString()}</p>
-                        <p>End Time: {new Date(reservation.endtime).toLocaleString()}</p>
-                    </li>
-                ))}
-            </ul>
-        </div>
+        <>
+            <table className="rounded-lg border-collapse border-spacing-0 border border-blue-900 shadow-lg">
+                <thead className="bg-blue-800 text-white">
+                <tr>
+                    <th className="px-4 py-2 border border-blue-900 text-left">Start Date</th>
+                    <th className="px-4 py-2 border border-blue-900 text-left">End Date</th>
+                    <th className="px-4 py-2 border border-blue-900 text-left">Room</th>
+                    <th className="px-4 py-2 border border-blue-900 text-left">Creator</th>
+                    <th className="px-4 py-2 border border-blue-900 text-left">Cancel</th>
+                </tr>
+                </thead>
+                <tbody className="bg-white">
+                { reservations && reservations.map((reservation) => {
+                    return <tr key={reservation.id} className="hover:bg-blue-100 transition duration-200">
+                        <td className="px-4 py-2 border border-blue-900">{reservation.startTime.toString()}</td>
+                        <td className="px-4 py-2 border border-blue-900">{reservation.endTime.toString()}</td>
+                        <td className="px-4 py-2 border border-blue-900">{reservation.classroom.classroomNumber}</td>
+                        <td className="px-4 py-2 border border-blue-900">{reservation.user.studentNumber}</td>
+                        <td className="px-4 py-2 border border-blue-900">{reservation.user.id === loggedInId ? <button
+                                className="px-4 py-1 bg-red-600 text-white rounded hover:bg-red-700 transition duration-200">
+                                Cancel
+                            </button>
+                            : ""}</td>
+                    </tr>
+                })}
+                </tbody>
+            </table>
+        </>
     );
 };
 

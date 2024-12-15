@@ -10,10 +10,10 @@ export class TimeSlot {
 
     validate(startTime: Date, endTime: Date) {
         if (startTime >= endTime) {
-            throw new Error("Start time must be before end time.");
+            throw new Error('Start time must be before end time.');
         }
         if (startTime.getMinutes() % 30 !== 0 || endTime.getMinutes() % 30 !== 0) {
-            throw new Error("Time slot must start and end at the hour or half hour.");
+            throw new Error('Time slot must start and end at the hour or half hour.');
         }
     }
 

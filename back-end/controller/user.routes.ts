@@ -10,7 +10,7 @@
  *                      format: int64
  *                  email:
  *                      type: array
- *                      items: 
+ *                      items:
  *                          type: string
  *                      description: User email
  *                  password:
@@ -27,7 +27,7 @@
  *              properties:
  *                  email:
  *                      type: array
- *                      items: 
+ *                      items:
  *                          type: string
  *                      description: User email
  *                  password:
@@ -43,7 +43,6 @@
 import express, { NextFunction, Request, Response } from 'express';
 import userService from '../service/user.service';
 import { UserInput } from '../types';
-
 
 export const userRouter = express.Router();
 
@@ -61,9 +60,9 @@ export const userRouter = express.Router();
  *                          type: array
  *                          items:
  *                          $ref: '#/components/schemas/User'
- *      
+ *
  */
-userRouter.get("/", async (req, res) => {
+userRouter.get('/', async (req, res) => {
     try {
         const schedules = await userService.getAllUsers();
         res.status(200).json(schedules);
@@ -92,14 +91,14 @@ userRouter.get("/", async (req, res) => {
  *                      schema:
  *                          $ref: '#/components/schemas/UserInput'
  */
-userRouter.post("/", async (req: Request, res: Response) => {
+userRouter.post('/', async (req: Request, res: Response) => {
     try {
-        const user = <UserInput>req.body
-        const result = await userService.createUser(user)
-        res.status(200).json(result)
+        const user = <UserInput>req.body;
+        const result = await userService.createUser(user);
+        res.status(200).json(result);
     } catch (error) {
         const errorMessage = (error as Error).message;
-        res.status(400).json({ status: 'error', errorMessage })
+        res.status(400).json({ status: 'error', errorMessage });
     }
 });
 

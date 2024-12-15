@@ -1,7 +1,6 @@
-import { Classroom } from "../model/classroom";
-import { ClassroomInput } from "../types";
-import database from "../util/database";
-
+import { Classroom } from '../model/classroom';
+import { ClassroomInput } from '../types';
+import database from '../util/database';
 
 const getAllClassrooms = async (): Promise<Classroom[]> => {
     try {
@@ -16,7 +15,7 @@ const getAllClassrooms = async (): Promise<Classroom[]> => {
 const getClassroomById = async ({ id }: { id: number }): Promise<Classroom | null> => {
     try {
         const classroomPrisma = await database.classroom.findUnique({
-            where: { id }
+            where: { id },
         });
         return classroomPrisma ? Classroom.from(classroomPrisma) : null;
     } catch (error) {
@@ -25,26 +24,33 @@ const getClassroomById = async ({ id }: { id: number }): Promise<Classroom | nul
     }
 };
 
-const getClassroomByCampusAndClassroomNumber = async ({campus, classroomNumber}: {campus: string, classroomNumber: string}): Promise<Classroom | null> => {
+const getClassroomByCampusAndClassroomNumber = async ({
+    campus,
+    classroomNumber,
+}: {
+    campus: string;
+    classroomNumber: string;
+}): Promise<Classroom | null> => {
     try {
         const classroomPrisma = await database.classroom.findUnique({
             where: {
-                campus_classroomNumber: {campus, classroomNumber}}
+                campus_classroomNumber: { campus, classroomNumber },
+            },
         });
         return classroomPrisma ? Classroom.from(classroomPrisma) : null;
     } catch (error) {
         console.error(error);
-        throw new Error('Database error. See server log for details.')
+        throw new Error('Database error. See server log for details.');
     }
-}
+};
 
 const createClassroom = async ({ campus, classroomNumber }: ClassroomInput): Promise<Classroom> => {
     try {
         const classroomPrisma = await database.classroom.create({
             data: {
                 campus,
-                classroomNumber
-            }
+                classroomNumber,
+            },
         });
         return Classroom.from(classroomPrisma);
     } catch (error) {
@@ -53,11 +59,9 @@ const createClassroom = async ({ campus, classroomNumber }: ClassroomInput): Pro
     }
 };
 
-
-
 export default {
     getAllClassrooms,
     getClassroomById,
     getClassroomByCampusAndClassroomNumber,
-    createClassroom
-}
+    createClassroom,
+};

@@ -1,21 +1,21 @@
-import { Reservation } from "../model/reservation";
-import database from "../util/database";
+import { Reservation } from '../model/reservation';
+import database from '../util/database';
 
 const getAllReservations = async (): Promise<Reservation[]> => {
     try {
         const reservationPrisma = await database.reservation.findMany({
             include: {
                 classroom: true,
-                user: true
-            }
+                user: true,
+            },
         });
-        return reservationPrisma.map((reservationPrisma) => Reservation.from(reservationPrisma))
+        return reservationPrisma.map((reservationPrisma) => Reservation.from(reservationPrisma));
     } catch (error) {
-        console.error(error)
+        console.error(error);
         throw new Error('Database error. See server log for details.');
     }
-}
+};
 
 export default {
     getAllReservations,
-}
+};
