@@ -56,7 +56,7 @@ const Profile: React.FC = () => {
             <main className="p-6 min-h-screen flex flex-col items-center">
                 <h1>My reservations</h1>
                 {error && <div className="text-red-800">{error}</div>}
-                {!error && !isLoading && loggedInUser && reservations && <ReservationsOverview reservations={reservations} loggedInId={loggedInUser.id as number}/>}
+                {!error && !isLoading && loggedInUser && reservations && <ReservationsOverview reservations={reservations} loggedInUser={loggedInUser}/>}
             </main>
         </>
     );

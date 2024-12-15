@@ -8,7 +8,14 @@ const createUser = async (formData: { studentNumber: string, email: string, pass
             headers: {
                 "Content-Type": "application/json"
             }
-        })
+        });
+}
+
+const getAllUsers = async () => {
+    return fetch(process.env.NEXT_PUBLIC_API_URL + `/users`,
+        {
+            method: "GET"
+        });
 }
 
 const loginUser = (user: User) => {
@@ -23,7 +30,8 @@ const loginUser = (user: User) => {
 
 const UserService = {
     createUser,
-    loginUser
+    loginUser,
+    getAllUsers
 }
 
 
