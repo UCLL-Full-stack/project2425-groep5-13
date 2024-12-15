@@ -58,7 +58,7 @@ const UserLoginForm: React.FC = () => {
                     token: user.token,
                     id: user.id,
                     studentNumber: user.studentNumber,
-                    rol: user.role,
+                    role: user.role,
                 })
             );
 
