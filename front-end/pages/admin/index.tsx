@@ -46,9 +46,9 @@ const Admin: React.FC = () => {
         <Header/>
         <div className="flex flex-col items-center">
             <div className="flex flex-col">
-                <TableWidthButton text="Add a new user"/>
+                <TableWidthButton text="Add a new user" dest="/admin/addUser"/>
                 <UsersOverview users={users}/>
-                <TableWidthButton text="Add a new user"/>
+                <TableWidthButton text="Add a new user" dest="/admin/addUser"/>
             </div>
         </div>
     </>);

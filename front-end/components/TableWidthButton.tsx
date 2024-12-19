@@ -1,10 +1,13 @@
+import Link from 'next/link';
+
 type Props = {
     text: string;
+    dest: string;
 }
 
-const TableWidthButton: React.FC = ({text}: Props) => {
+const TableWidthButton: React.FC<Props> = ({text, dest}: Props) => {
     return (
-        <button className="bg-blue-800 my-2 rounded-l text-white">{text}</button>
+        <Link href={dest} className="bg-blue-800 my-2 rounded-l text-white text-center">{text}</Link>
     );
 }
 

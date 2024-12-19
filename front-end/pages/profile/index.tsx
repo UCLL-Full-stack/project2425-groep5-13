@@ -4,6 +4,7 @@ import Head from 'next/head';
 import Header from '@/components/header';
 import ReservationsOverview from '@/components/reservations/ReservationsOverview';
 import { ReservationService } from '@/services/ReservationService';
+import TableWidthButton from '@/components/TableWidthButton';
 
 const Profile: React.FC = () => {
     const [reservations, setReservations] = useState<Reservation[]>([]);
@@ -52,7 +53,7 @@ const Profile: React.FC = () => {
         setReservations(reservations.filter(
             (reservation) => reservation.id !== reservationId
         ));
-    }
+    };
 
     return (
         <>
@@ -64,7 +65,12 @@ const Profile: React.FC = () => {
                 <h1>My reservations</h1>
                 {error && <div className="text-red-800">{error}</div>}
                 {!error && !isLoading && loggedInUser && reservations && (
-                    <ReservationsOverview reservations={reservations} loggedInUser={loggedInUser} deleteReservation={deleteReservation}/>
+                    <div>
+                        <TableWidthButton text="Add a new reservation" />
+                        <ReservationsOverview reservations={reservations} loggedInUser={loggedInUser}
+                                              deleteReservation={deleteReservation} />
+                        <TableWidthButton text="Add a new reservation" />
+                    </div>
                 )}
             </main>
         </>

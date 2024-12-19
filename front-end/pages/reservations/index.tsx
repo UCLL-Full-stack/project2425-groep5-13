@@ -55,9 +55,9 @@ const Reservations: React.FC = () => {
             <div className="flex flex-col items-center">
                 {loggedInUser ?
                     <div className="flex flex-col">
-                        <TableWidthButton text="Add a new reservation"/>
+                        <TableWidthButton text="Add a new reservation" dest="/reservations/addReservation"/>
                         <ReservationsOverview reservations={reservations as Reservation[]} loggedInUser={loggedInUser} deleteReservation={deleteReservation}/>
-                        <TableWidthButton text="Add a new reservation"/>
+                        <TableWidthButton text="Add a new reservation" dest="/reservations/addReservation"/>
                     </div>
                     : <p>You are not logged in</p>}
             </div>
