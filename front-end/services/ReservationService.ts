@@ -1,6 +1,6 @@
 const getReservationsByUser = (userStudentNumber: string) => {
 
-    const loggedInUser = sessionStorage.getItem("loggenInUser");
+    const loggedInUser = sessionStorage.getItem("loggedInUser");
     const token = loggedInUser ? JSON.parse(loggedInUser).token : null;
 
     return fetch(process.env.NEXT_PUBLIC_API_URL + `/reservations/${userStudentNumber}`, {
@@ -13,10 +13,14 @@ const getReservationsByUser = (userStudentNumber: string) => {
 }
 
 const getAllReservations = (userStudentNumber: string) => {
+    const loggedInUser = sessionStorage.getItem("loggedInUser");
+    const token = loggedInUser ? JSON.parse(loggedInUser).token : null;
+
     return fetch(process.env.NEXT_PUBLIC_API_URL + `/reservations`, {
         method: 'GET',
         headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
         }
     })
 }
