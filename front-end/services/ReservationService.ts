@@ -1,3 +1,6 @@
+// Import or define the ReservationInput type
+import { Reservation } from '../types';
+
 const getReservationsByUser = (userStudentNumber: string) => {
 
     const loggedInUser = sessionStorage.getItem("loggedInUser");
@@ -38,8 +41,23 @@ const deleteReservation = (reservationId: number) => {
     });
 }
 
+const createReservation = (reservation: Reservation) => {
+    const loggedInUser = sessionStorage.getItem("loggedInUser");
+    const token = loggedInUser ? JSON.parse(loggedInUser).token : null;
+
+    return fetch(process.env.NEXT_PUBLIC_API_URL + '/reservations', {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(reservation),
+    });
+};
+
 export const ReservationService = {
     getReservationsByUser,
     getAllReservations,
-    deleteReservation
+    deleteReservation,
+    createReservation,
 }

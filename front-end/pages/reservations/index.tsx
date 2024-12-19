@@ -1,11 +1,11 @@
-import {useEffect, useState} from "react";
-import {Reservation, User} from "@/types";
-import {ReservationService} from "@/services/ReservationService";
-import ReservationsOverview from "@/components/reservations/ReservationsOverview";
-import Header from "@/components/header";
-import TableWidthButton from "@/components/TableWidthButton";
+import { useEffect, useState } from 'react';
+import { Reservation, User } from '@/types';
+import { ReservationService } from '@/services/ReservationService';
+import ReservationsOverview from '@/components/reservations/ReservationsOverview';
+import Header from '@/components/header';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'next-i18next';
+import ReservationForm from '@/components/reservations/ReservationForm';
 
 const Reservations: React.FC = () => {
     const [reservations, setReservations] = useState<Reservation[]>();
@@ -17,7 +17,7 @@ const Reservations: React.FC = () => {
             setLoggedInUser(JSON.parse(user));
             console.log(user);
         } else {
-            console.log("ops")
+            console.log('ops');
             return;
         }
     }, []);
@@ -29,7 +29,7 @@ const Reservations: React.FC = () => {
             }
 
             const response = await ReservationService.getAllReservations(
-                "r0985321"
+                loggedInUser.studentNumber
             );
 
             if (!response.ok) {
@@ -46,26 +46,35 @@ const Reservations: React.FC = () => {
 
     const deleteReservation = async (reservationId: number) => {
         await ReservationService.deleteReservation(reservationId);
-        setReservations(reservations.filter(
-            (reservation) => reservation.id !== reservationId
-        ));
-    }
+        setReservations(
+            (reservations || []).filter((reservation) => reservation.id !== reservationId)
+        );
+    };
+
+    const addReservation = (reservation: Reservation) => {
+        setReservations([...(reservations || []), reservation]);
+    };
 
     return (
         <>
-            <Header/>
-            <h1 className="text-center">{t("reservations.allReservations")}</h1>
+            <Header />
+            <h1 className="text-center">{t('reservations.allReservations')}</h1>
             <div className="flex flex-col items-center">
-                {loggedInUser ?
+                {loggedInUser ? (
                     <div className="flex flex-col">
-                        <TableWidthButton text={t("reservations.addNewReservation")} dest="/reservations/addReservation"/>
-                        <ReservationsOverview reservations={reservations as Reservation[]} loggedInUser={loggedInUser} deleteReservation={deleteReservation}/>
-                        <TableWidthButton text={t("reservations.addNewReservation")} dest="/reservations/addReservation"/>
+                        <ReservationsOverview
+                            reservations={reservations as Reservation[]}
+                            loggedInUser={loggedInUser}
+                            deleteReservation={deleteReservation}
+                        />
+                        <ReservationForm onSuccess={addReservation} />
                     </div>
-                    : <p>You are not logged in</p>}
+                ) : (
+                    <p>You are not logged in</p>
+                )}
             </div>
         </>
-    )
+    );
 };
 
 export const getServerSideProps = async (context: any) => {
@@ -73,9 +82,9 @@ export const getServerSideProps = async (context: any) => {
 
     return {
         props: {
-            ...(await serverSideTranslations(locale ?? "en", ['common'])),
-        }
-    }
-}
+            ...(await serverSideTranslations(locale ?? 'en', ['common'])),
+        },
+    };
+};
 
 export default Reservations;

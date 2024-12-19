@@ -1,5 +1,6 @@
 import { Reservation } from '../model/reservation';
 import database from '../util/database';
+import { ReservationInput } from '../types';
 
 const getAllReservations = async (): Promise<Reservation[]> => {
     try {
@@ -72,9 +73,35 @@ const deleteReservation = async (reservationId: number): Promise<void> => {
     }
 }
 
+const createReservation = async (reservationData: ReservationInput): Promise<Reservation> => {
+    try {
+        const reservationPrisma = await database.reservation.create({
+            data: {
+                startTime: new Date(reservationData.startTime),
+                endTime: new Date(reservationData.endTime),
+                classroom: {
+                    connect: { id: reservationData.classroom.id },
+                },
+                user: {
+                    connect: { id: reservationData.user.id },
+                },
+            },
+            include: {
+                classroom: true,
+                user: true,
+            },
+        });
+        return Reservation.from(reservationPrisma);
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
+};
+
 export default {
     getAllReservations,
     getReservationsByUser,
     getReservation,
-    deleteReservation
+    deleteReservation,
+    createReservation,
 };
