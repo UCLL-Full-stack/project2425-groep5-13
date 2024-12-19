@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { User } from '@/types';
 import { useTranslation } from 'next-i18next';
+import Language from '@/components/language/Language';
 
 const Header = () => {
     const [loggedInUser, setLoggedInUser] = useState<User | null>(null);
@@ -29,6 +30,7 @@ const Header = () => {
                 ) : (
                     <Link href="/login">{t("header.login")}</Link>
                 )}
+                <Language/>
             </nav>
         </header>
     );
