@@ -7,7 +7,7 @@ import { useTranslation } from 'next-i18next';
 const UserLoginForm: React.FC = () => {
     const [studentNumber, setStudentNumber] = useState<string>('');
     const [password, setPassword] = useState<string>('');
-    const [studenNumberError, setStudentNumberError] = useState<string | null>(null);
+    const [studentNumberError, setStudentNumberError] = useState<string | null>(null);
     const [passwordError, setPasswordError] = useState<string | null>(null);
     const [statusMessages, setStatusMessage] = useState<StatusMessage[]>([]);
     const router = useRouter();
@@ -101,7 +101,7 @@ const UserLoginForm: React.FC = () => {
                         onChange={(event) => setStudentNumber(event.target.value)}
                         className="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue:500 block w-full p-2.5"
                     />
-                    {studenNumberError && <p className="text-red-800">{studenNumberError}</p>}
+                    {studentNumberError && <p className="text-red-800">{studentNumberError}</p>}
                 </div>
 
                 <label htmlFor="passwordInput" className="block mb-2 text-sm font-medium">
