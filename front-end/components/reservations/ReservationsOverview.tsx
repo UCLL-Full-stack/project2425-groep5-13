@@ -1,4 +1,6 @@
 import { Reservation, User } from '@/types';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useTranslation } from 'next-i18next';
 
 interface ReservationsOverviewProps {
     reservations: Reservation[];
@@ -11,6 +13,8 @@ const ReservationsOverview: React.FC<ReservationsOverviewProps> = ({
                                                                        loggedInUser,
                                                                        deleteReservation
                                                                    }: ReservationsOverviewProps) => {
+    const { t } = useTranslation();
+
     const deleteReservationLocal = (target: React.MouseEvent<HTMLButtonElement>) => {
         // @ts-ignore
         const reservationId = parseInt(target.currentTarget.parentElement.parentElement.children[0].textContent);
@@ -22,11 +26,11 @@ const ReservationsOverview: React.FC<ReservationsOverviewProps> = ({
                 <thead className="bg-blue-800 text-white">
                 <tr>
                     <th className="hidden">ID</th>
-                    <th className="px-4 py-2 border border-blue-900 text-left">Start Date</th>
-                    <th className="px-4 py-2 border border-blue-900 text-left">End Date</th>
-                    <th className="px-4 py-2 border border-blue-900 text-left">Room</th>
-                    <th className="px-4 py-2 border border-blue-900 text-left">Creator</th>
-                    <th className="px-4 py-2 border border-blue-900 text-left">Cancel</th>
+                    <th className="px-4 py-2 border border-blue-900 text-left">{t("reservations.startDate")}</th>
+                    <th className="px-4 py-2 border border-blue-900 text-left">{t("reservations.endDate")}</th>
+                    <th className="px-4 py-2 border border-blue-900 text-left">{t("reservations.room")}</th>
+                    <th className="px-4 py-2 border border-blue-900 text-left">{t("reservations.creator")}</th>
+                    <th className="px-4 py-2 border border-blue-900 text-left">{t("reservations.cancel")}</th>
                 </tr>
                 </thead>
                 <tbody className="bg-white">

@@ -4,11 +4,13 @@ import {ReservationService} from "@/services/ReservationService";
 import ReservationsOverview from "@/components/reservations/ReservationsOverview";
 import Header from "@/components/header";
 import TableWidthButton from "@/components/TableWidthButton";
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useTranslation } from 'next-i18next';
 
 const Reservations: React.FC = () => {
     const [reservations, setReservations] = useState<Reservation[]>();
     const [loggedInUser, setLoggedInUser] = useState<User | null>(null);
-
+    const { t } = useTranslation();
     useEffect(() => {
         const user = sessionStorage.getItem('loggedInUser');
         if (user) {
@@ -52,17 +54,28 @@ const Reservations: React.FC = () => {
     return (
         <>
             <Header/>
+            <h1 className="text-center">{t("reservations.allReservations")}</h1>
             <div className="flex flex-col items-center">
                 {loggedInUser ?
                     <div className="flex flex-col">
-                        <TableWidthButton text="Add a new reservation" dest="/reservations/addReservation"/>
+                        <TableWidthButton text={t("reservations.addNewReservation")} dest="/reservations/addReservation"/>
                         <ReservationsOverview reservations={reservations as Reservation[]} loggedInUser={loggedInUser} deleteReservation={deleteReservation}/>
-                        <TableWidthButton text="Add a new reservation" dest="/reservations/addReservation"/>
+                        <TableWidthButton text={t("reservations.addNewReservation")} dest="/reservations/addReservation"/>
                     </div>
                     : <p>You are not logged in</p>}
             </div>
         </>
     )
 };
+
+export const getServerSideProps = async (context: any) => {
+    const { locale } = context;
+
+    return {
+        props: {
+            ...(await serverSideTranslations(locale ?? "en", ['common'])),
+        }
+    }
+}
 
 export default Reservations;

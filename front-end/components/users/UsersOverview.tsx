@@ -1,20 +1,22 @@
 import {useEffect, useState} from "react";
 import {User} from "@/types";
 import UserService from "@/services/UserService";
+import { useTranslation } from 'next-i18next';
 
 type Props = {
     users: User[];
 }
 
 const UsersOverview: React.FC<Props> = ({users}: Props) => {
+    const { t } = useTranslation();
     return (<>
             <table className="rounded-lg border-collapse border-spacing-0 border border-blue-900 shadow-lg">
                 <thead className="bg-blue-800 text-white">
                 <tr>
-                    <th className="px-4 py-2 border border-blue-900 text-left">Student Number</th>
-                    <th className="px-4 py-2 border border-blue-900 text-left">Email</th>
-                    <th className="px-4 py-2 border border-blue-900 text-left">Role</th>
-                    <th className="px-4 py-2 border border-blue-900 text-left">Delete</th>
+                    <th className="px-4 py-2 border border-blue-900 text-left">{t("users.studentNumber")}</th>
+                    <th className="px-4 py-2 border border-blue-900 text-left">{t("users.email")}</th>
+                    <th className="px-4 py-2 border border-blue-900 text-left">{t("users.role")}</th>
+                    <th className="px-4 py-2 border border-blue-900 text-left">{t("users.delete")}</th>
                 </tr>
                 </thead>
                 <tbody className="bg-white">
