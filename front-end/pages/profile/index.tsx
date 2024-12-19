@@ -47,6 +47,13 @@ const Profile: React.FC = () => {
         }
     }, [loggedInUser]);
 
+    const deleteReservation = async (reservationId: number) => {
+        await ReservationService.deleteReservation(reservationId);
+        setReservations(reservations.filter(
+            (reservation) => reservation.id !== reservationId
+        ));
+    }
+
     return (
         <>
             <Head>
@@ -57,7 +64,7 @@ const Profile: React.FC = () => {
                 <h1>My reservations</h1>
                 {error && <div className="text-red-800">{error}</div>}
                 {!error && !isLoading && loggedInUser && reservations && (
-                    <ReservationsOverview reservations={reservations} loggedInUser={loggedInUser} />
+                    <ReservationsOverview reservations={reservations} loggedInUser={loggedInUser} deleteReservation={deleteReservation}/>
                 )}
             </main>
         </>

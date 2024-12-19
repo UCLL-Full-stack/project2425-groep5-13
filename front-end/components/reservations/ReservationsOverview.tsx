@@ -1,16 +1,27 @@
-import {Reservation, User} from '@/types';
+import { Reservation, User } from '@/types';
 
 interface ReservationsOverviewProps {
     reservations: Reservation[];
     loggedInUser: User;
+    deleteReservation: (reservationId: number) => void;
 }
 
-const ReservationsOverview: React.FC<ReservationsOverviewProps> = ({ reservations, loggedInUser }: ReservationsOverviewProps) => {
+const ReservationsOverview: React.FC<ReservationsOverviewProps> = ({
+                                                                       reservations,
+                                                                       loggedInUser,
+                                                                       deleteReservation
+                                                                   }: ReservationsOverviewProps) => {
+    const deleteReservationLocal = (target: React.MouseEvent<HTMLButtonElement>) => {
+        // @ts-ignore
+        const reservationId = parseInt(target.currentTarget.parentElement.parentElement.children[0].textContent);
+        deleteReservation(reservationId);
+    }
     return (
         <>
             <table className="rounded-lg border-collapse border-spacing-0 border border-blue-900 shadow-lg">
                 <thead className="bg-blue-800 text-white">
                 <tr>
+                    <th className="hidden">ID</th>
                     <th className="px-4 py-2 border border-blue-900 text-left">Start Date</th>
                     <th className="px-4 py-2 border border-blue-900 text-left">End Date</th>
                     <th className="px-4 py-2 border border-blue-900 text-left">Room</th>
@@ -19,18 +30,21 @@ const ReservationsOverview: React.FC<ReservationsOverviewProps> = ({ reservation
                 </tr>
                 </thead>
                 <tbody className="bg-white">
-                { reservations && reservations.map((reservation) => {
+                {reservations && reservations.map((reservation) => {
                     return <tr key={reservation.id} className="hover:bg-blue-100 transition duration-200">
+                        <td className="hidden">{reservation.id}</td>
                         <td className="px-4 py-2 border border-blue-900">{reservation.startTime.toString()}</td>
                         <td className="px-4 py-2 border border-blue-900">{reservation.endTime.toString()}</td>
                         <td className="px-4 py-2 border border-blue-900">{reservation.classroom.classroomNumber}</td>
                         <td className="px-4 py-2 border border-blue-900">{reservation.user.studentNumber}</td>
-                        <td className="px-4 py-2 border border-blue-900">{(reservation.user.id === loggedInUser.id || loggedInUser.role === "admin") ? <button
-                                className="px-4 py-1 bg-red-600 text-white rounded hover:bg-red-700 transition duration-200">
+                        <td className="px-4 py-2 border border-blue-900">{(reservation.user.id === loggedInUser.id || loggedInUser.role === 'admin') ?
+                            <button
+                                className="px-4 py-1 bg-red-600 text-white rounded hover:bg-red-700 transition duration-200"
+                                onClick={deleteReservationLocal}>
                                 Cancel
                             </button>
-                            : ""}</td>
-                    </tr>
+                            : ''}</td>
+                    </tr>;
                 })}
                 </tbody>
             </table>

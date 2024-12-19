@@ -25,7 +25,21 @@ const getAllReservations = (userStudentNumber: string) => {
     })
 }
 
+const deleteReservation = (reservationId: number) => {
+    const loggedInUser = sessionStorage.getItem("loggedInUser");
+    const token = loggedInUser ? JSON.parse(loggedInUser).token : null;
+
+    return fetch(process.env.NEXT_PUBLIC_API_URL + `/reservations/${reservationId}`, {
+        method: 'DELETE',
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        }
+    });
+}
+
 export const ReservationService = {
     getReservationsByUser,
-    getAllReservations
+    getAllReservations,
+    deleteReservation
 }

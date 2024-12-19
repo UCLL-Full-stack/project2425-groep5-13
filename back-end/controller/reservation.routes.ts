@@ -50,6 +50,7 @@
  *                          format: int64
  */
 import express, { NextFunction, Request, Response } from 'express';
+import { Request as JWTRequest } from 'express-jwt';
 import reservationService from '../service/reservation.service';
 
 export const reservationRouter = express.Router();
@@ -110,5 +111,22 @@ reservationRouter.get('/:studentNumber', async (req: Request, res: Response, nex
     } catch (error) {
         const errorMessage = (error as Error).message;
         res.status(400).json({ status: 'error', errorMessage });
+    }
+});
+
+reservationRouter.delete('/:reservationId', async (req: Request & {auth: any}, res: Response) => {
+    try {
+        const reservationId = parseInt(req.params.reservationId);
+        if (!reservationId) {
+            return res.status(400).json({ error: 'Reservation ID is required and must be a number' });
+        }
+        const reservation = await reservationService.getReservation(reservationId);
+        if (reservation.user.studentNumber !== req.auth.studentNumber && req.auth.role !== 'admin') {
+            return res.status(403).json({ error: 'You are not authorized to delete this reservation' });
+        }
+        await reservationService.deleteReservation(reservationId);
+        res.status(200).json(reservation);
+    } catch (error) {
+        res.status(400).json({ status: 'error', errorMessage: error.message });
     }
 });

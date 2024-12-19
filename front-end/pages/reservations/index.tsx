@@ -42,6 +42,13 @@ const Reservations: React.FC = () => {
         }
     }, [loggedInUser]);
 
+    const deleteReservation = async (reservationId: number) => {
+        await ReservationService.deleteReservation(reservationId);
+        setReservations(reservations.filter(
+            (reservation) => reservation.id !== reservationId
+        ));
+    }
+
     return (
         <>
             <Header/>
@@ -49,7 +56,7 @@ const Reservations: React.FC = () => {
                 {loggedInUser ?
                     <div className="flex flex-col">
                         <TableWidthButton text="Add a new reservation"/>
-                        <ReservationsOverview reservations={reservations as Reservation[]} loggedInUser={loggedInUser}/>
+                        <ReservationsOverview reservations={reservations as Reservation[]} loggedInUser={loggedInUser} deleteReservation={deleteReservation}/>
                         <TableWidthButton text="Add a new reservation"/>
                     </div>
                     : <p>You are not logged in</p>}
