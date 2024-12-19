@@ -130,3 +130,17 @@ userRouter.post('/login', async (req: Request, res: Response, next: NextFunction
         next(error);
     }
 });
+
+userRouter.delete('/:studentNumber', async (req: Request & { auth: any }, res: Response, next: NextFunction) => {
+    try {
+        const role = req.auth.role;
+        if (role !== 'admin') {
+            return res.status(401).json({ status: 'error', errorMessage: 'Unauthorized' });
+        }
+
+        await userService.deleteUser({ studentNumber: req.params.studentNumber });
+        res.status(200).json({ message: 'User deleted' });
+    } catch (error) {
+        throw error;
+    }
+});

@@ -41,8 +41,20 @@ const createUser = async ({ studentNumber, email, password, role }: UserInput): 
     }
 };
 
+const deleteUser = async (studentNumber: string): Promise<void> => {
+    try {
+        await database.user.delete({
+            where: { studentNumber },
+        });
+    } catch (error) {
+        console.error(error);
+        throw new Error(`Unable to delete user ${studentNumber}.`);
+    }
+}
+
 export default {
     getAllUsers,
     getUserByStudentNumber,
     createUser,
+    deleteUser
 };

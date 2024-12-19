@@ -2,7 +2,7 @@
   "reservations": {
     "allReservations": "All Reservations",
     "addNewReservation": "Add new reservation",
-    "startDate": "Start Ddate",
+    "startDate": "Start Date",
     "endDate": "End Date",
     "room": "Room",
     "creator": "Creator",

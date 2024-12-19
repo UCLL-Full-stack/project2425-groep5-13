@@ -63,7 +63,7 @@ const Profile: React.FC = () => {
                 <title>Profile</title>
             </Head>
             <Header />
-            <main className="p-6 min-h-screen flex flex-col items-center">
+            <main className="min-h-screen flex flex-col items-center">
                 <h1>{t("profile.myReservations")}</h1>
                 {error && <div className="text-red-800">{error}</div>}
                 {!error && !isLoading && loggedInUser && reservations && (
