@@ -107,7 +107,7 @@ const UserLoginForm: React.FC = () => {
                 <div className="block mb-2 text-sm font-medium">
                     <input
                         id="passwordInput"
-                        type="text"
+                        type="password"
                         value={password}
                         onChange={(event) => setPassword(event.target.value)}
                         className="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue:500 block w-full p-2.5"
