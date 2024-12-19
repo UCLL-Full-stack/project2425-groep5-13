@@ -1,10 +1,12 @@
 import {useState} from "react";
 import UserService from "@/services/UserService";
 import Header from "@/components/header";
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useTranslation } from 'next-i18next';
 const AddUser: React.FC = () => {
     const [formData, setFormData] = useState({studentNumber: '', email: '', password: ''});
     const [success, setSuccess] = useState<boolean>(false);
-
+    const { t } = useTranslation();
     const handleChange = (event: any) => {
         const {name, value} = event.target;
         setFormData((prevFormData) => ({...prevFormData, [name]: value}));
@@ -20,13 +22,13 @@ const AddUser: React.FC = () => {
                 <div className="grid grid-cols-2">
                     <div className="grid grid-rows-3 [&>*]:mt-2">
                         <label htmlFor="studentNumber" className="text-2xl">
-                            Student number:{' '}
+                            {t("users.studentNumber")}:
                         </label>
                         <label htmlFor="email" className="text-2xl">
-                            Email:{' '}
+                            {t("users.email")}:
                         </label>
                         <label htmlFor="password" className="text-2xl">
-                            Password:{' '}
+                            {t("addUser.password")}:
                         </label>
                     </div>
                     <div className="grid grid-rows-3 [&>*]:mt-2">
@@ -57,12 +59,22 @@ const AddUser: React.FC = () => {
                     </div>
                 </div>
                 <button type="submit" className="mt-6">
-                    Submit
+                    {t("addUser.submit")}
                 </button>
                 {success ? <p>Successfully added user</p> : <p></p>}
             </form>
         </>
     );
+}
+
+export const getServerSideProps = async (context: any) => {
+    const { locale } = context;
+
+    return {
+        props: {
+            ...(await serverSideTranslations(locale ?? "en", ['common'])),
+        }
+    }
 }
 
 export default AddUser;

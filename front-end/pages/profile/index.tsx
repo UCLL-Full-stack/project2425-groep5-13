@@ -4,13 +4,16 @@ import Head from 'next/head';
 import Header from '@/components/header';
 import ReservationsOverview from '@/components/reservations/ReservationsOverview';
 import { ReservationService } from '@/services/ReservationService';
+import TableWidthButton from '@/components/TableWidthButton';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useTranslation } from 'next-i18next';
 
 const Profile: React.FC = () => {
     const [reservations, setReservations] = useState<Reservation[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [loggedInUser, setLoggedInUser] = useState<User | null>(null);
     const [isLoading, setLoading] = useState(true);
-
+    const { t } = useTranslation();
     useEffect(() => {
         const user = sessionStorage.getItem('loggedInUser');
         if (user) {
@@ -52,7 +55,7 @@ const Profile: React.FC = () => {
         setReservations(reservations.filter(
             (reservation) => reservation.id !== reservationId
         ));
-    }
+    };
 
     return (
         <>
@@ -61,14 +64,29 @@ const Profile: React.FC = () => {
             </Head>
             <Header />
             <main className="p-6 min-h-screen flex flex-col items-center">
-                <h1>My reservations</h1>
+                <h1>{t("profile.myReservations")}</h1>
                 {error && <div className="text-red-800">{error}</div>}
                 {!error && !isLoading && loggedInUser && reservations && (
-                    <ReservationsOverview reservations={reservations} loggedInUser={loggedInUser} deleteReservation={deleteReservation}/>
+                    <div className="flex flex-col">
+                        <TableWidthButton text={t("reservations.addNewReservation")} dest="/reservations/addReservation"/>
+                        <ReservationsOverview reservations={reservations} loggedInUser={loggedInUser}
+                                              deleteReservation={deleteReservation} />
+                        <TableWidthButton text={t("reservations.addNewReservation")} dest="/reservations/addReservation"/>
+                    </div>
                 )}
             </main>
         </>
     );
 };
+
+export const getServerSideProps = async (context: any) => {
+    const { locale } = context;
+
+    return {
+        props: {
+            ...(await serverSideTranslations(locale ?? "en", ['common'])),
+        }
+    }
+}
 
 export default Profile;

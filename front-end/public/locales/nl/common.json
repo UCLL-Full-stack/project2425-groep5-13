@@ -1,1 +1,36 @@
-{}
+{
+  "reservations": {
+    "allReservations": "Alle reservaties",
+    "addNewReservation": "Nieuwe reservatie toevoegen",
+    "startDate": "Startdatum",
+    "endDate": "Einddatum",
+    "room": "Kamer",
+    "creator": "Aanmaker",
+    "cancel": "Annuleren"
+  },
+  "profile": {
+    "myReservations": "Mijn reservaties"
+  },
+  "header": {
+    "reservations": "Reservaties",
+    "profile": "Profiel",
+    "admin": "Admin",
+    "logout": "Uitloggen",
+    "login": "Inloggen"
+  },
+  "users": {
+    "studentNumber": "Student nummer",
+    "email": "E-mail",
+    "role": "Rol",
+    "delete": "Verwijderen",
+    "addUser": "Gebruiker toevoegen"
+  },
+  "addUser": {
+    "password": "Wachtwoord",
+    "submit": "Versturen",
+    "studentNumberIsRequired": "Studentennummer is verplicht",
+    "passwordIsRequired": "Wachtwoord is verplicht",
+    "success": "Inloggen gelukt",
+    "error": "Inloggen mislukt"
+  }
+}

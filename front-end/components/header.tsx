@@ -2,10 +2,12 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { User } from '@/types';
+import { useTranslation } from 'next-i18next';
+import Language from '@/components/language/Language';
 
 const Header = () => {
     const [loggedInUser, setLoggedInUser] = useState<User | null>(null);
-
+    const { t } = useTranslation();
     useEffect(() => {
         const user = sessionStorage.getItem('loggedInUser');
         if (user) {
@@ -16,18 +18,19 @@ const Header = () => {
     return (
         <header className="p-3 mb-3 border-bottom bg-blue-900">
             <nav className="flex justify-around items-center text-white">
-                <Link href="/reservations">Reservations</Link>
-                <Link href="/profile">Profile</Link>
+                <Link href="/reservations">{t("header.reservations")}</Link>
+                <Link href="/profile">{t("header.profile")}</Link>
                 {loggedInUser && loggedInUser.role === 'admin' ? (
-                    <Link href="/admin">Admin</Link>
+                    <Link href="/admin">{t("header.admin")}</Link>
                 ) : null}
                 {loggedInUser ? (
                     <Link href="/login" onClick={() => sessionStorage.removeItem('loggedInUser')}>
-                        Logout, {loggedInUser.studentNumber}
+                        {t("header.logout")}, {loggedInUser.studentNumber}
                     </Link>
                 ) : (
-                    <Link href="/login">Login</Link>
+                    <Link href="/login">{t("header.login")}</Link>
                 )}
+                <Language/>
             </nav>
         </header>
     );

@@ -1,1 +1,40 @@
-{}
+{
+  "reservations": {
+    "allReservations": "All Reservations",
+    "addNewReservation": "Add new reservation",
+    "startDate": "Start Ddate",
+    "endDate": "End Date",
+    "room": "Room",
+    "creator": "Creator",
+    "cancel": "Cancel"
+  },
+  "profile": {
+    "myReservations": "My Reservations"
+  },
+  "header": {
+    "reservations": "Reservations",
+    "profile": "Profile",
+    "admin": "Admin",
+    "logout": "Logout",
+    "login": "Login"
+  },
+  "users": {
+    "studentNumber": "Student Number",
+    "email": "Email",
+    "role": "Role",
+    "delete": "Delete",
+    "addUser": "Add User"
+  },
+  "addUser": {
+    "password": "Password",
+    "submit": "Submit"
+  },
+  "login": {
+    "login": "Login",
+    "password": "Password",
+    "studentNumberIsRequired": "Student number is required",
+    "passwordIsRequired": "Password is required",
+    "success": "Login successful",
+    "error": "Login failed"
+  }
+}

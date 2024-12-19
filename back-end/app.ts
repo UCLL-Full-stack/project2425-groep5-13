@@ -20,7 +20,7 @@ app.use(
         secret: process.env.JWT_SECRET as string,
         algorithms: ['HS256'],
     }).unless({
-        path: ['/api-docs', /^\/api-docs\/.*/, '/users/login', '//users/signup'],
+        path: ['/api-docs', /^\/api-docs\/.*/, '/users/login', '/users/'],
     }),
 );
 app.use('/users', userRouter);

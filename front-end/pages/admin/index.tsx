@@ -4,10 +4,14 @@ import {User} from "@/types";
 import UserService from "@/services/UserService";
 import TableWidthButton from "@/components/TableWidthButton";
 import Header from "@/components/header";
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useTranslation } from 'next-i18next';
 
 const Admin: React.FC = () => {
     const [users, setUsers] = useState<User[]>([]);
     const [loggedInUser, setLoggedInUser] = useState<User | null>(null);
+
+    const { t } = useTranslation();
 
     useEffect(() => {
         const user = sessionStorage.getItem('loggedInUser');
@@ -46,12 +50,22 @@ const Admin: React.FC = () => {
         <Header/>
         <div className="flex flex-col items-center">
             <div className="flex flex-col">
-                <TableWidthButton text="Add a new user"/>
+                <TableWidthButton text={t("users.addUser")} dest="/admin/addUser"/>
                 <UsersOverview users={users}/>
-                <TableWidthButton text="Add a new user"/>
+                <TableWidthButton text={t("users.addUser")} dest="/admin/addUser"/>
             </div>
         </div>
     </>);
+}
+
+export const getServerSideProps = async (context: any) => {
+    const { locale } = context;
+
+    return {
+        props: {
+            ...(await serverSideTranslations(locale ?? "en", ['common'])),
+        }
+    }
 }
 
 export default Admin;

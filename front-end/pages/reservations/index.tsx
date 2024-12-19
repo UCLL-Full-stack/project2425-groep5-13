@@ -3,12 +3,14 @@ import { Reservation, User } from '@/types';
 import { ReservationService } from '@/services/ReservationService';
 import ReservationsOverview from '@/components/reservations/ReservationsOverview';
 import Header from '@/components/header';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useTranslation } from 'next-i18next';
 import ReservationForm from '@/components/reservations/ReservationForm';
 
 const Reservations: React.FC = () => {
     const [reservations, setReservations] = useState<Reservation[]>();
     const [loggedInUser, setLoggedInUser] = useState<User | null>(null);
-
+    const { t } = useTranslation();
     useEffect(() => {
         const user = sessionStorage.getItem('loggedInUser');
         if (user) {
@@ -56,6 +58,7 @@ const Reservations: React.FC = () => {
     return (
         <>
             <Header />
+            <h1 className="text-center">{t('reservations.allReservations')}</h1>
             <div className="flex flex-col items-center">
                 {loggedInUser ? (
                     <div className="flex flex-col">
@@ -72,6 +75,16 @@ const Reservations: React.FC = () => {
             </div>
         </>
     );
+};
+
+export const getServerSideProps = async (context: any) => {
+    const { locale } = context;
+
+    return {
+        props: {
+            ...(await serverSideTranslations(locale ?? 'en', ['common'])),
+        },
+    };
 };
 
 export default Reservations;

@@ -2,14 +2,17 @@ import UserService from '@/services/UserService';
 import { StatusMessage } from '@/types';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { useTranslation } from 'next-i18next';
 
 const UserLoginForm: React.FC = () => {
     const [studentNumber, setStudentNumber] = useState<string>('');
     const [password, setPassword] = useState<string>('');
-    const [studenNumberError, setStudentNumberError] = useState<string | null>(null);
+    const [studentNumberError, setStudentNumberError] = useState<string | null>(null);
     const [passwordError, setPasswordError] = useState<string | null>(null);
     const [statusMessages, setStatusMessage] = useState<StatusMessage[]>([]);
     const router = useRouter();
+
+    const { t } = useTranslation();
 
     const clearErrors = () => {
         setStudentNumberError(null);
@@ -21,12 +24,12 @@ const UserLoginForm: React.FC = () => {
         let result = true;
 
         if (!studentNumber && studentNumber.trim() === '') {
-            setStudentNumberError('StudentNumber is required');
+            setStudentNumberError(t("login.studentNumberIsRequired"));
             result = false;
         }
 
         if (!password && password.trim() === '') {
-            setPasswordError('Password is required');
+            setPasswordError(t("login.passwordIsRequired"));
             result = false;
         }
 
@@ -47,7 +50,7 @@ const UserLoginForm: React.FC = () => {
         if (response.status === 200) {
             setStatusMessage([
                 {
-                    message: `Login successful. Redirecting to homepage of ${studentNumber}`,
+                    message: t("login.success"),
                     type: 'success',
                 },
             ]);
@@ -64,13 +67,13 @@ const UserLoginForm: React.FC = () => {
 
             setTimeout(() => {
                 router.push('/');
-            }, 2000);
+            }, 1000);
         } else if (response.status === 401) {
             const { errorMessage } = await response.json();
             setStatusMessage([{ message: errorMessage, type: 'error' }]);
         } else {
             setStatusMessage([
-                { message: 'An error has occurred. Please try again later.', type: 'error' },
+                { message: t("login.error"), type: 'error' },
             ]);
         }
     };
@@ -88,7 +91,7 @@ const UserLoginForm: React.FC = () => {
             )}
             <form onSubmit={handleSubmit}>
                 <label htmlFor="nameInput" className="block mb-2 text-sm font-medium">
-                    Student number:
+                    {t("users.studentNumber")}:
                 </label>
                 <div className="block mb-2 text-sm font-medium">
                     <input
@@ -98,16 +101,16 @@ const UserLoginForm: React.FC = () => {
                         onChange={(event) => setStudentNumber(event.target.value)}
                         className="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue:500 block w-full p-2.5"
                     />
-                    {studenNumberError && <p className="text-red-800">{studenNumberError}</p>}
+                    {studentNumberError && <p className="text-red-800">{studentNumberError}</p>}
                 </div>
 
                 <label htmlFor="passwordInput" className="block mb-2 text-sm font-medium">
-                    Password:
+                    {t("login.password")}:
                 </label>
                 <div className="block mb-2 text-sm font-medium">
                     <input
                         id="passwordInput"
-                        type="text"
+                        type="password"
                         value={password}
                         onChange={(event) => setPassword(event.target.value)}
                         className="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue:500 block w-full p-2.5"
@@ -119,7 +122,7 @@ const UserLoginForm: React.FC = () => {
                     className="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                     type="submit"
                 >
-                    Login
+                    {t("login.login")}
                 </button>
             </form>
         </>
