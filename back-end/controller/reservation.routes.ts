@@ -52,6 +52,7 @@
 import express, { NextFunction, Request, Response } from 'express';
 import { Request as JWTRequest } from 'express-jwt';
 import reservationService from '../service/reservation.service';
+import { ReservationInput } from '../types';
 
 export const reservationRouter = express.Router();
 
@@ -114,7 +115,7 @@ reservationRouter.get('/:studentNumber', async (req: Request, res: Response, nex
     }
 });
 
-reservationRouter.delete('/:reservationId', async (req: Request & {auth: any}, res: Response) => {
+reservationRouter.delete('/:reservationId', async (req: Request & { auth: any }, res: Response) => {
     try {
         const reservationId = parseInt(req.params.reservationId);
         if (!reservationId) {
@@ -126,6 +127,16 @@ reservationRouter.delete('/:reservationId', async (req: Request & {auth: any}, r
         }
         await reservationService.deleteReservation(reservationId);
         res.status(200).json(reservation);
+    } catch (error) {
+        res.status(400).json({ status: 'error', errorMessage: error.message });
+    }
+});
+
+reservationRouter.post('/', async (req: Request & { auth: any }, res: Response) => {
+    try {
+        const reservationInput = req.body as ReservationInput;
+        const reservation = await reservationService.createReservation(reservationInput);
+        res.status(201).json(reservation);
     } catch (error) {
         res.status(400).json({ status: 'error', errorMessage: error.message });
     }

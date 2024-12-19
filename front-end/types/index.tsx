@@ -7,6 +7,7 @@ export type User = {
 };
 
 export type Classroom = {
+    id?: number;
     campus: string;
     classroomNumber: string;
 };
@@ -18,7 +19,7 @@ export type StudentAssociation = {
 };
 
 export type Reservation = {
-    id: number;
+    id?: number;
     startTime: Date;
     endTime: Date;
     classroom: Classroom;
