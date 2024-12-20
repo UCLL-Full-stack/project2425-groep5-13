@@ -66,7 +66,7 @@ const ReservationForm: React.FC = () => {
             {error && <p className="text-red-800">{error}</p>}
             <div className="mb-4">
                 <label htmlFor="startTime" className="block mb-2 text-sm font-medium">
-                    Start Time:
+                    {t('reservations.startDate')}:
                 </label>
                 <input
                     type="datetime-local"
@@ -78,7 +78,7 @@ const ReservationForm: React.FC = () => {
             </div>
             <div className="mb-4">
                 <label htmlFor="endTime" className="block mb-2 text-sm font-medium">
-                    End Time:
+                    {t('reservations.endDate')}:
                 </label>
                 <input
                     type="datetime-local"
@@ -90,7 +90,7 @@ const ReservationForm: React.FC = () => {
             </div>
             <div className="mb-4">
                 <label htmlFor="classroom" className="block mb-2 text-sm font-medium">
-                    Classroom:
+                    {t('classrooms.classroom')}:
                 </label>
                 <select
                     id="classroom"
@@ -99,7 +99,7 @@ const ReservationForm: React.FC = () => {
                     className="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                 >
                     <option value="" disabled>
-                        Select a classroom
+                        {t("reservations.selectClassroom")}
                     </option>
                     {classrooms.map((classroom) => (
                         <option key={classroom.id} value={classroom.id}>

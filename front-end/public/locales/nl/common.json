@@ -2,6 +2,7 @@
   "delete": "Verwijderen",
   "reservations": {
     "allReservations": "Alle reservaties",
+    "selectClassroom": "Selecteer lokaal",
     "addNewReservation": "Nieuwe reservatie toevoegen",
     "startDate": "Startdatum",
     "endDate": "Einddatum",
@@ -10,6 +11,7 @@
     "cancel": "Annuleren"
   },
   "classrooms": {
+    "classroom": "Lokaal",
     "campus": "Campus",
     "classroomNumber": "Lokaal nummer",
     "addClassroom": "Lokaal toevoegen"

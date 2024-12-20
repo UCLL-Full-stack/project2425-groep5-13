@@ -2,6 +2,7 @@
   "delete": "Delete",
   "reservations": {
     "allReservations": "All Reservations",
+    "selectClassroom": "Select Classroom",
     "addNewReservation": "Add new reservation",
     "startDate": "Start Date",
     "endDate": "End Date",
@@ -10,6 +11,7 @@
     "cancel": "Cancel"
   },
   "classrooms": {
+    "classroom": "Classroom",
     "campus": "Campus",
     "classroomNumber": "Classroom Number",
     "addClassroom": "Add Classroom"
