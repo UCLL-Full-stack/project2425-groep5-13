@@ -12,6 +12,11 @@ export type Classroom = {
     classroomNumber: string;
 };
 
+export type ClassroomInput = {
+    campus: string;
+    classroomNumber: string;
+}
+
 export type StudentAssociation = {
     kboNumber: number;
     name: string;

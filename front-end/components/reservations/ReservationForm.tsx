@@ -2,18 +2,17 @@ import { useEffect, useState } from 'react';
 import { Reservation, Classroom } from '@/types';
 import { ReservationService } from '@/services/ReservationService';
 import { ClassroomService } from '@/services/ClassroomService';
+import { useTranslation } from 'next-i18next';
+import { useRouter } from 'next/router';
 
-interface ReservationFormProps {
-    onSuccess: (reservation: Reservation) => void;
-}
-
-const ReservationForm: React.FC<ReservationFormProps> = ({ onSuccess }) => {
+const ReservationForm: React.FC = () => {
     const [startTime, setStartTime] = useState<string>('');
     const [endTime, setEndTime] = useState<string>('');
     const [classroomId, setClassroomId] = useState<number | null>(null);
     const [classrooms, setClassrooms] = useState<Classroom[]>([]);
     const [error, setError] = useState<string | null>(null);
-
+    const { t } = useTranslation();
+    const router = useRouter();
     useEffect(() => {
         const fetchClassrooms = async () => {
             const response = await ClassroomService.getAllClassrooms();
@@ -49,10 +48,12 @@ const ReservationForm: React.FC<ReservationFormProps> = ({ onSuccess }) => {
 
         if (response.ok) {
             const reservation = await response.json();
-            onSuccess(reservation);
             setStartTime('');
             setEndTime('');
             setClassroomId(null);
+            setTimeout(() => {
+                router.push(`/reservations`);
+            });
         } else {
             const { errorMessage } = await response.json();
             setError(errorMessage || 'Failed to create reservation');
@@ -111,7 +112,7 @@ const ReservationForm: React.FC<ReservationFormProps> = ({ onSuccess }) => {
                 type="submit"
                 className="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
             >
-                Create Reservation
+                {t('reservations.addNewReservation')}
             </button>
         </form>
     );

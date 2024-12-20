@@ -59,9 +59,21 @@ const createClassroom = async ({ campus, classroomNumber }: ClassroomInput): Pro
     }
 };
 
+const deleteClassroom = async (classroomId: number): Promise<void> => {
+    try {
+        await database.classroom.delete({
+            where: { id: classroomId },
+        });
+    } catch (error) {
+        console.error(error);
+        throw new Error(`Error deleting classroom ${classroomId}.`);
+    }
+}
+
 export default {
     getAllClassrooms,
     getClassroomById,
     getClassroomByCampusAndClassroomNumber,
     createClassroom,
+    deleteClassroom,
 };

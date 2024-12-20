@@ -3,6 +3,7 @@ import UserService from "@/services/UserService";
 import Header from "@/components/header";
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'next-i18next';
+import withAuth from '@/util/withAuth';
 const AddUser: React.FC = () => {
     const [formData, setFormData] = useState({studentNumber: '', email: '', password: ''});
     const [success, setSuccess] = useState<boolean>(false);
@@ -77,4 +78,4 @@ export const getServerSideProps = async (context: any) => {
     }
 }
 
-export default AddUser;
+export default withAuth(AddUser);

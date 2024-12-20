@@ -7,6 +7,7 @@ import { ReservationService } from '@/services/ReservationService';
 import TableWidthButton from '@/components/TableWidthButton';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'next-i18next';
+import withAuth from '@/util/withAuth';
 
 const Profile: React.FC = () => {
     const [reservations, setReservations] = useState<Reservation[]>([]);
@@ -89,4 +90,4 @@ export const getServerSideProps = async (context: any) => {
     }
 }
 
-export default Profile;
+export default withAuth(Profile);

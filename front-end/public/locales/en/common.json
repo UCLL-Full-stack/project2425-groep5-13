@@ -1,4 +1,5 @@
 {
+  "delete": "Delete",
   "reservations": {
     "allReservations": "All Reservations",
     "addNewReservation": "Add new reservation",
@@ -8,13 +9,20 @@
     "creator": "Creator",
     "cancel": "Cancel"
   },
+  "classrooms": {
+    "campus": "Campus",
+    "classroomNumber": "Classroom Number",
+    "addClassroom": "Add Classroom"
+  },
   "profile": {
     "myReservations": "My Reservations"
   },
   "header": {
     "reservations": "Reservations",
     "profile": "Profile",
-    "admin": "Admin",
+    "users": "Users",
+    "classrooms": "Classrooms",
+    "studentAssociations": "Student Associations",
     "logout": "Logout",
     "login": "Login"
   },

@@ -49,3 +49,35 @@ classroomRouter.get('/', async (req: Request, res: Response) => {
         res.status(400).json({ status: 'error', errorMessage });
     }
 });
+
+classroomRouter.post('/', async (req: Request & { auth: any }, res: Response) => {
+    try {
+        const role = req.auth.role;
+        if (role !== 'admin') {
+            throw new Error('Unauthorized');
+        }
+        const classroom = req.body;
+        const newClassroom = await classroomService.createClassroom(classroom);
+        res.status(201).json(newClassroom);
+    } catch (error) {
+        const errorMessage = (error as Error).message;
+        res.status(400).json({ status: 'error', errorMessage });
+    }
+});
+
+classroomRouter.delete('/:classroomId', async (req: Request & { auth: any }, res: Response) => {
+    try {
+        const role = req.auth.role;
+        if (role !== 'admin') {
+            throw new Error('Unauthorized');
+        }
+        const classroomId = parseInt(req.params.classroomId);
+        await classroomService.deleteClassroom(classroomId);
+        res.status(204).end();
+    } catch (error) {
+        const errorMessage = (error as Error).message;
+        res.status(400).json({ status: 'error', errorMessage });
+    }
+});
+
+export default classroomRouter;

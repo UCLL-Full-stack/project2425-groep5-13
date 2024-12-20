@@ -36,8 +36,13 @@ const createClassroom = async ({ campus, classroomNumber }: ClassroomInput): Pro
     return classroomDb.createClassroom({ campus, classroomNumber });
 };
 
+const deleteClassroom = async (classroomId: number): Promise<void> => {
+    return classroomDb.deleteClassroom(classroomId);
+}
+
 export default {
     getAllClassrooms,
     getClassroomByCampusAndClassroomNumber,
     createClassroom,
+    deleteClassroom,
 };

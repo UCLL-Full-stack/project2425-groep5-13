@@ -21,7 +21,10 @@ const Header = () => {
                 <Link href="/reservations">{t("header.reservations")}</Link>
                 <Link href="/profile">{t("header.profile")}</Link>
                 {loggedInUser && loggedInUser.role === 'admin' ? (
-                    <Link href="/admin">{t("header.admin")}</Link>
+                    <>
+                    <Link href="/users">{t("header.users")}</Link>
+                    <Link href="/classrooms">{t("header.classrooms")}</Link>
+                    </>
                 ) : null}
                 {loggedInUser ? (
                     <Link href="/login" onClick={() => sessionStorage.removeItem('loggedInUser')}>

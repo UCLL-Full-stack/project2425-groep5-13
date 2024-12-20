@@ -5,6 +5,7 @@ import {
 } from '@prisma/client';
 import { Classroom } from './classroom';
 import { User } from './user';
+import reservationDb from '../repository/reservation.db';
 
 export class Reservation {
     readonly id?: number;
@@ -36,6 +37,7 @@ export class Reservation {
         if (reservation.startTime >= reservation.endTime) {
             throw new Error('Start time must be before end time.');
         }
+        console.log(reservation.startTime.getMinutes(), reservation.endTime.getMinutes());
         if (
             reservation.startTime.getMinutes() % 30 !== 0 ||
             reservation.endTime.getMinutes() % 30 !== 0

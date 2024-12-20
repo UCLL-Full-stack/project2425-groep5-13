@@ -1,4 +1,5 @@
 {
+  "delete": "Verwijderen",
   "reservations": {
     "allReservations": "Alle reservaties",
     "addNewReservation": "Nieuwe reservatie toevoegen",
@@ -8,13 +9,20 @@
     "creator": "Aanmaker",
     "cancel": "Annuleren"
   },
+  "classrooms": {
+    "campus": "Campus",
+    "classroomNumber": "Lokaal nummer",
+    "addClassroom": "Lokaal toevoegen"
+  },
   "profile": {
     "myReservations": "Mijn reservaties"
   },
   "header": {
     "reservations": "Reservaties",
     "profile": "Profiel",
-    "admin": "Admin",
+    "users": "Gebruikers",
+    "classrooms": "Lokalen",
+    "studentAssociations": "Studentenverenigingen",
     "logout": "Uitloggen",
     "login": "Inloggen"
   },

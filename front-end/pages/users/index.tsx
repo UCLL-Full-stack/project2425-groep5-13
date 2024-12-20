@@ -6,6 +6,7 @@ import TableWidthButton from "@/components/TableWidthButton";
 import Header from "@/components/header";
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'next-i18next';
+import withAuth from '@/util/withAuth';
 
 const Admin: React.FC = () => {
     const [users, setUsers] = useState<User[]>([]);
@@ -17,9 +18,7 @@ const Admin: React.FC = () => {
         const user = sessionStorage.getItem('loggedInUser');
         if (user) {
             setLoggedInUser(JSON.parse(user));
-            console.log(user);
         } else {
-            console.log("ops")
             return;
         }
     }, []);
@@ -50,9 +49,9 @@ const Admin: React.FC = () => {
         <Header/>
         <div className="flex flex-col items-center">
             <div className="flex flex-col">
-                <TableWidthButton text={t("users.addUser")} dest="/admin/addUser"/>
+                <TableWidthButton text={t("users.addUser")} dest="/users/addUser"/>
                 <UsersOverview users={users}/>
-                <TableWidthButton text={t("users.addUser")} dest="/admin/addUser"/>
+                <TableWidthButton text={t("users.addUser")} dest="/users/addUser"/>
             </div>
         </div>
     </>);
@@ -68,4 +67,4 @@ export const getServerSideProps = async (context: any) => {
     }
 }
 
-export default Admin;
+export default withAuth(Admin);

@@ -6,6 +6,8 @@ import Header from '@/components/header';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'next-i18next';
 import ReservationForm from '@/components/reservations/ReservationForm';
+import TableWidthButton from '@/components/TableWidthButton';
+import withAuth from '@/util/withAuth';
 
 const Reservations: React.FC = () => {
     const [reservations, setReservations] = useState<Reservation[]>();
@@ -51,10 +53,6 @@ const Reservations: React.FC = () => {
         );
     };
 
-    const addReservation = (reservation: Reservation) => {
-        setReservations([...(reservations || []), reservation]);
-    };
-
     return (
         <>
             <Header />
@@ -62,12 +60,13 @@ const Reservations: React.FC = () => {
             <div className="flex flex-col items-center">
                 {loggedInUser ? (
                     <div className="flex flex-col">
+                        <TableWidthButton text={t('reservations.addNewReservation')} dest={"/reservations/addReservation"} />
                         <ReservationsOverview
                             reservations={reservations as Reservation[]}
                             loggedInUser={loggedInUser}
                             deleteReservation={deleteReservation}
                         />
-                        <ReservationForm onSuccess={addReservation} />
+                        <TableWidthButton text={t('reservations.addNewReservation')} dest={"/reservations/addReservation"} />
                     </div>
                 ) : (
                     <p>You are not logged in</p>
@@ -87,4 +86,4 @@ export const getServerSideProps = async (context: any) => {
     };
 };
 
-export default Reservations;
+export default withAuth(Reservations);
