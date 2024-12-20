@@ -52,9 +52,23 @@ const deleteUser = async (studentNumber: string): Promise<void> => {
     }
 }
 
+const updateUser = async ({ studentNumber, email, password, role }: UserInput): Promise<User> => {
+    try {
+        const userPrisma = await database.user.update({
+            where: { studentNumber },
+            data: { email, password, role },
+        });
+        return User.from(userPrisma);
+    } catch (error) {
+        console.error(error);
+        throw new Error(`Unable to update user ${studentNumber}.`);
+    }
+};
+
 export default {
     getAllUsers,
     getUserByStudentNumber,
     createUser,
-    deleteUser
+    deleteUser,
+    updateUser
 };

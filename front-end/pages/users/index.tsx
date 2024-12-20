@@ -45,12 +45,26 @@ const Admin: React.FC = () => {
         }
     }, [loggedInUser]);
 
+    const updateUser = async (userId: number, role: string) => {
+        // Get the user from the users state and update it
+        let user = users.find((u) => u.id === userId) as User;
+        user.role = role;
+        await UserService.updateUser(user);
+        const newUsers = users.map((u) => {
+            if (u.id === user.id) {
+                return user;
+            }
+            return u;
+        });
+        setUsers(newUsers);
+    }
+
     return (<>
         <Header/>
         <div className="flex flex-col items-center">
             <div className="flex flex-col">
                 <TableWidthButton text={t("users.addUser")} dest="/users/addUser"/>
-                <UsersOverview users={users}/>
+                <UsersOverview users={users} updateUser={updateUser}/>
                 <TableWidthButton text={t("users.addUser")} dest="/users/addUser"/>
             </div>
         </div>

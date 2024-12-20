@@ -5,10 +5,18 @@ import { useTranslation } from 'next-i18next';
 
 type Props = {
     users: User[];
+    updateUser: (userId: number, role: string) => void;
 }
 
-const UsersOverview: React.FC<Props> = ({users}: Props) => {
+const UsersOverview: React.FC<Props> = ({users, updateUser}: Props) => {
     const { t } = useTranslation();
+
+    const updateUserLocal = (target: React.MouseEvent<HTMLButtonElement>) => {
+        // @ts-ignore
+        const userId = parseInt(target.currentTarget.parentElement.parentElement.children[0].textContent);
+        updateUser(userId, target.target.value);
+    }
+
     return (<>
             <table className="rounded-lg border-collapse border-spacing-0 border border-blue-900 shadow-lg">
                 <thead className="bg-blue-800 text-white">
@@ -27,9 +35,9 @@ const UsersOverview: React.FC<Props> = ({users}: Props) => {
                         <td className="px-4 py-2 border border-blue-900">{user.studentNumber}</td>
                         <td className="px-4 py-2 border border-blue-900">{user.email}</td>
                         <td className="px-4 py-2 border border-blue-900">
-                            <select onChange={(e) => console.log(e.target.value)} disabled name="role" id={"role"}>
-                                <option value="admin">Admin</option>
-                                <option value="student">Student</option>
+                            <select onChange={updateUserLocal} name="role" id={"role"}>
+                                <option value="admin" selected={ user.role === "admin" ? true: false }>Admin</option>
+                                <option value="student" selected={ user.role === "student" ? true : false }>Student</option>
                             </select>
                         </td>
                         <td className="px-4 py-2 border border-blue-900">

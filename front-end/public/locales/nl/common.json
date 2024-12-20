@@ -40,5 +40,13 @@
     "passwordIsRequired": "Wachtwoord is verplicht",
     "success": "Inloggen gelukt",
     "error": "Inloggen mislukt"
+  },
+  "login": {
+    "login": "Login",
+    "password": "Wachtwoord",
+    "studentNumberIsRequired": "Studentennummer is verplicht",
+    "passwordIsRequired": "Wachtwoord is verplicht",
+    "success": "Login successvol",
+    "error": "Login gefaald"
   }
 }

@@ -54,9 +54,7 @@ const Classrooms: React.FC = () => {
         <Header/>
         <div className="flex flex-col items-center">
             <div className="flex flex-col">
-                <TableWidthButton text={t("classrooms.addClassroom")} dest="/classrooms/addClassroom"/>
                 <ClassroomsOverview classrooms={classrooms} deleteClassroom={deleteClassroom}/>
-                <TableWidthButton text={t("classrooms.addClassroom")} dest="/classrooms/addClassroom"/>
             </div>
         </div>
     </>);

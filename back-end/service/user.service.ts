@@ -57,10 +57,15 @@ const deleteUser = async ({ studentNumber }: { studentNumber: string }): Promise
    }
 }
 
+const updateUser = async ({ studentNumber, email, password, role }: UserInput): Promise<User> => {
+    return await userDb.updateUser({ studentNumber, email, password, role });
+}
+
 export default {
     getAllUsers,
     getUserByStudentNumber,
     authenticate,
     createUser,
-    deleteUser
+    deleteUser,
+    updateUser
 };

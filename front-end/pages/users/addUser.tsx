@@ -59,7 +59,7 @@ const AddUser: React.FC = () => {
                         />
                     </div>
                 </div>
-                <button type="submit" className="mt-6">
+                <button type="button" onClick={handleSubmit} className="mt-6">
                     {t("addUser.submit")}
                 </button>
                 {success ? <p>Successfully added user</p> : <p></p>}
