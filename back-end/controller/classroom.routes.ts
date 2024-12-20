@@ -30,6 +30,8 @@ const classroomRouter = express.Router();
  * /classrooms:
  *  get:
  *      summary: Get all classrooms
+ *      security:
+ *        - bearerAuth: []
  *      responses:
  *          200:
  *              description: Successfully fetched classrooms
@@ -40,7 +42,7 @@ const classroomRouter = express.Router();
  *                          items:
  *                              $ref: '#/components/schemas/Classroom'
  */
-classroomRouter.get('/', async (req: Request, res: Response) => {
+classroomRouter.get('/', async (req: Request & { auth: any }, res: Response) => {
     try {
         const classrooms = await classroomService.getAllClassrooms();
         res.status(200).json(classrooms);
@@ -50,6 +52,31 @@ classroomRouter.get('/', async (req: Request, res: Response) => {
     }
 });
 
+/**
+ * @swagger
+ * /classrooms:
+ *  post:
+ *      summary: Create a new classroom
+ *      security:
+ *        - bearerAuth: []
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/ClassroomInput'
+ *      responses:
+ *          201:
+ *              description: Successfully created a new classroom
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Classroom'
+ *          400:
+ *              description: Bad request
+ *          401:
+ *              description: Unauthorized
+ */
 classroomRouter.post('/', async (req: Request & { auth: any }, res: Response) => {
     try {
         const role = req.auth.role;
@@ -65,6 +92,29 @@ classroomRouter.post('/', async (req: Request & { auth: any }, res: Response) =>
     }
 });
 
+/**
+ * @swagger
+ * /classrooms/{classroomId}:
+ *  delete:
+ *      summary: Delete a classroom by ID
+ *      security:
+ *        - bearerAuth: []
+ *      parameters:
+ *        - in: path
+ *          name: classroomId
+ *          required: true
+ *          schema:
+ *            type: integer
+ *            format: int64
+ *          description: The ID of the classroom to delete
+ *      responses:
+ *          204:
+ *              description: Classroom deleted successfully
+ *          400:
+ *              description: Bad request
+ *          401:
+ *              description: Unauthorized
+ */
 classroomRouter.delete('/:classroomId', async (req: Request & { auth: any }, res: Response) => {
     try {
         const role = req.auth.role;

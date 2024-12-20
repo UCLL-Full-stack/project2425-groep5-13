@@ -8,6 +8,7 @@ import { userRouter } from './controller/user.routes';
 import { reservationRouter } from './controller/reservation.routes';
 import { expressjwt } from 'express-jwt';
 import classroomRouter from './controller/classroom.routes';
+import helmet from 'helmet';
 
 const app = express();
 dotenv.config();
@@ -15,6 +16,7 @@ const port = process.env.APP_PORT || 3000;
 
 app.use(cors());
 app.use(bodyParser.json());
+app.use(helmet());
 
 app.use(
     expressjwt({

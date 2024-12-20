@@ -13,11 +13,11 @@
  *            id:
  *              type: number
  *              format: int64
- *            starttime:
+ *            startTime:
  *              type: string
  *              format: date-time
  *              description: Reseravtion starttime.
- *            endTIme:
+ *            endTime:
  *              type: string
  *              format: date-time
  *              description: Reservation endtime.
@@ -61,6 +61,8 @@ export const reservationRouter = express.Router();
  * /users:
  *  get:
  *      summary: Get all reservations
+ *      security:
+ *        - bearerAuth: []
  *      responses:
  *          200:
  *              description: Succesfully all reservations
@@ -87,6 +89,8 @@ reservationRouter.get('/', async (req: Request, res: Response, next: NextFunctio
  * /reservations/user/{studentNumber}:
  *  get:
  *      summary: Get all reservations for a specific user
+ *      security:
+ *        - bearerAuth: []
  *      parameters:
  *        - in: path
  *          name: studentNumber
@@ -104,7 +108,7 @@ reservationRouter.get('/', async (req: Request, res: Response, next: NextFunctio
  *                          items:
  *                              $ref: '#/components/schemas/Reservation'
  */
-reservationRouter.get('/:studentNumber', async (req: Request, res: Response, next: NextFunction) => {
+reservationRouter.get('/:studentNumber', async (req: Request & { auth: any}, res: Response, next: NextFunction) => {
     try {
         const { studentNumber } = req.params;
         const reservations = await reservationService.getReservationsByUser(studentNumber);
@@ -115,6 +119,56 @@ reservationRouter.get('/:studentNumber', async (req: Request, res: Response, nex
     }
 });
 
+/**
+ * @swagger
+ * /reservations/{reservationId}:
+ *  delete:
+ *      summary: Delete a reservation by ID
+ *      security:
+ *        - bearerAuth: []
+ *      parameters:
+ *        - in: path
+ *          name: reservationId
+ *          required: true
+ *          schema:
+ *            type: integer
+ *            format: int64
+ *          description: The ID of the reservation to delete
+ *      responses:
+ *          200:
+ *              description: Reservation deleted successfully
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              message:
+ *                                  type: string
+ *                                  example: Reservation deleted
+ *          400:
+ *              description: Bad request
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              status:
+ *                                  type: string
+ *                                  example: error
+ *                              errorMessage:
+ *                                  type: string
+ *                                  example: Reservation ID is required and must be a number
+ *          403:
+ *              description: Forbidden
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              error:
+ *                                  type: string
+ *                                  example: You are not authorized to delete this reservation
+ */
 reservationRouter.delete('/:reservationId', async (req: Request & { auth: any }, res: Response) => {
     try {
         const reservationId = parseInt(req.params.reservationId);
@@ -132,6 +186,31 @@ reservationRouter.delete('/:reservationId', async (req: Request & { auth: any },
     }
 });
 
+/**
+ * @swagger
+ * /reservations:
+ *  post:
+ *      summary: Create a new reservation
+ *      security:
+ *        - bearerAuth: []
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/ReservationsInput'
+ *      responses:
+ *          201:
+ *              description: Successfully created a new reservation
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Reservation'
+ *          400:
+ *              description: Bad request
+ *          401:
+ *              description: Unauthorized
+ */
 reservationRouter.post('/', async (req: Request & { auth: any }, res: Response) => {
     try {
         const reservationInput = req.body as ReservationInput;

@@ -51,6 +51,8 @@ export const userRouter = express.Router();
  * /users:
  *  get:
  *      summary: Get all users
+ *      security:
+ *        - bearerAuth: []
  *      responses:
  *          200:
  *              description: Succesfully all users
@@ -77,6 +79,8 @@ userRouter.get('/', async (req, res) => {
  * /users:
  *  post:
  *      summary: Create a new user
+ *      security:
+ *        - bearerAuth: []
  *      requestBody:
  *          required: true
  *          content:
@@ -91,7 +95,7 @@ userRouter.get('/', async (req, res) => {
  *                      schema:
  *                          $ref: '#/components/schemas/UserInput'
  */
-userRouter.post('/', async (req: Request, res: Response) => {
+userRouter.post('/', async (req: Request & { auth: any }, res: Response) => {
     try {
         const user = <UserInput>req.body;
         const result = await userService.createUser(user);
@@ -131,6 +135,43 @@ userRouter.post('/login', async (req: Request, res: Response, next: NextFunction
     }
 });
 
+/**
+ * @swagger
+ * /users/{studentNumber}:
+ *  delete:
+ *      summary: Delete a user by student number
+ *      parameters:
+ *        - in: path
+ *          name: studentNumber
+ *          required: true
+ *          schema:
+ *            type: string
+ *          description: The student number of the user to delete
+ *      responses:
+ *          200:
+ *              description: User deleted
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              message:
+ *                                  type: string
+ *                                  example: User deleted
+ *          401:
+ *              description: Unauthorized
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              status:
+ *                                  type: string
+ *                                  example: error
+ *                              errorMessage:
+ *                                  type: string
+ *                                  example: Unauthorized
+ */
 userRouter.delete('/:studentNumber', async (req: Request & { auth: any }, res: Response, next: NextFunction) => {
     try {
         const role = req.auth.role;
