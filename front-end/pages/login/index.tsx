@@ -1,42 +1,43 @@
 import Head from 'next/head';
 import Header from '@/components/header';
 import UserLoginForm from '@/components/users/UserLoginForm';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { useTranslation } from 'next-i18next';
+import {serverSideTranslations} from 'next-i18next/serverSideTranslations';
+import {useTranslation} from 'next-i18next';
 
 const Login: React.FC = () => {
-    const { t } = useTranslation();
+    const {t} = useTranslation();
+    const users = [
+        { username: 'r0948731', password: 'Renzo1234', role: 'Admin' },
+        { username: 'r0945821', password: 'Remco1234', role: 'Student' },
+        { username: 'r0985321', password: 'Tom1234', role: 'Student' },
+    ];
+
     return (
         <>
             <Head>
                 <title>{t("login.login")}</title>
             </Head>
-            <Header />
+            <Header/>
             <main>
                 <section className="p-6 min-h-screen flex flex-col items-center">
-                    <UserLoginForm />
-                    { /* Create a table with 3 columns, username, password and role. Populate it with 3 rows with easy fillable fields */ }
+                    <UserLoginForm/>
                     <table>
+                        <thead>
                         <tr>
                             <th>Username</th>
                             <th>Password</th>
                             <th>Role</th>
                         </tr>
-                        <tr>
-                            <td>r0948731</td>
-                            <td>Renzo1234</td>
-                            <td>Admin</td>
-                        </tr>
-                        <tr>
-                            <td>r0945821</td>
-                            <td>Remco1234</td>
-                            <td>Student</td>
-                        </tr>
-                        <tr>
-                            <td>r0985321</td>
-                            <td>Tom1234</td>
-                            <td>Student</td>
-                        </tr>
+                        </thead>
+                        <tbody>
+                        {users.map((user, index) => (
+                            <tr key={index}>
+                                <td>{user.username}</td>
+                                <td>{user.password}</td>
+                                <td>{user.role}</td>
+                            </tr>
+                        ))}
+                        </tbody>
                     </table>
                 </section>
             </main>
@@ -45,7 +46,7 @@ const Login: React.FC = () => {
 };
 
 export const getServerSideProps = async (context: any) => {
-    const { locale } = context;
+    const {locale} = context;
 
     return {
         props: {
