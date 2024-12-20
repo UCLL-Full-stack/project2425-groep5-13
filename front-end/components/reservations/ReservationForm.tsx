@@ -62,7 +62,7 @@ const ReservationForm: React.FC = () => {
 
     return (
         <form onSubmit={handleSubmit} className="flex flex-col items-center">
-            <h2 className="text-2xl mb-4">Create Reservation</h2>
+            <h2 className="text-2xl mb-4">{t("reservations.addNewReservation")}</h2>
             {error && <p className="text-red-800">{error}</p>}
             <div className="mb-4">
                 <label htmlFor="startTime" className="block mb-2 text-sm font-medium">
