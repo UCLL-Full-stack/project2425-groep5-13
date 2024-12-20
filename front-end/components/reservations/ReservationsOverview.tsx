@@ -37,8 +37,21 @@ const ReservationsOverview: React.FC<ReservationsOverviewProps> = ({
                 {reservations && reservations.map((reservation) => {
                     return <tr key={reservation.id} className="hover:bg-blue-100 transition duration-200">
                         <td className="hidden">{reservation.id}</td>
-                        <td className="px-4 py-2 border border-blue-900">{reservation.startTime.toString()}</td>
-                        <td className="px-4 py-2 border border-blue-900">{reservation.endTime.toString()}</td>
+                        { /*  Change the dates to DD/MM/YYYY HH:MM format*/}
+                        <td className="px-4 py-2 border border-blue-900">{new Date(reservation.startTime).toLocaleString('en-GB', {
+                            day: '2-digit',
+                            month: '2-digit',
+                            year: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        })}</td>
+                        <td className="px-4 py-2 border border-blue-900">{new Date(reservation.endTime).toLocaleString('nl-BE', {
+                            day: '2-digit',
+                            month: '2-digit',
+                            year: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        })}</td>
                         <td className="px-4 py-2 border border-blue-900">{reservation.classroom.classroomNumber}</td>
                         <td className="px-4 py-2 border border-blue-900">{reservation.user.studentNumber}</td>
                         <td className="px-4 py-2 border border-blue-900">{(reservation.user.id === loggedInUser.id || loggedInUser.role === 'admin') ?
